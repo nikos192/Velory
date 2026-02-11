@@ -5,7 +5,9 @@ export default function Header({ onScrollToSection }) {
     <header className="fixed top-0 left-0 right-0 bg-white z-50 border-b border-gray-100">
       <div className="max-w-7xl mx-auto px-6 md:px-8 py-6 flex justify-between items-center">
         <div className="flex items-center gap-4">
-          <img src="/logo.png" alt="Nikosta Systems" className="h-8 md:h-10 object-contain" />
+          <div className="bg-navy-900 rounded-full p-1 shadow-lg flex items-center justify-center">
+            <img src="/logo.png" alt="Nikosta Systems" className="h-8 md:h-10 object-contain rounded-full" />
+          </div>
         </div>
         
         <nav className="hidden md:flex gap-8 text-sm">

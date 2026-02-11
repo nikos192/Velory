@@ -5,7 +5,12 @@ export default function Hero({ onScrollToSection }) {
     <section className="min-h-[85vh] pt-28 pb-16 bg-white flex items-center">
       <div className="max-w-6xl mx-auto px-6 md:px-8 grid md:grid-cols-2 gap-12 items-center">
         <div className="text-left">
-          <img src="/logo.png" alt="Nikosta Systems" className="h-14 mb-6" />
+          <div className="inline-flex flex-col items-center mb-6">
+            <div className="bg-navy-900 rounded-full p-2 shadow-xl flex items-center justify-center">
+              <img src="/logo.png" alt="Nikosta Systems" className="h-16 w-16 object-contain rounded-full" />
+            </div>
+            <span className="mt-2 text-xs tracking-widest text-marina-600 font-semibold uppercase">Nikosta Systems</span>
+          </div>
           <div className="inline-block mb-4 px-3 py-1 rounded-full bg-marina-50 text-marina-600 text-sm font-medium">Gold Coast service websites</div>
           <h1 className="mb-4 text-navy-900 leading-tight">
             Websites for local businesses — built free, pay only if you want it.
