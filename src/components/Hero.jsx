@@ -7,7 +7,7 @@ export default function Hero({ onScrollToSection }) {
         <div className="text-left text-marina-100">
           <div className="inline-flex flex-col items-center mb-6">
             <div className="h-20 w-20 rounded-full bg-navy-900/70 border border-marina-200/30 p-2 shadow-xl overflow-hidden flex items-center justify-center">
-              <img src="/logo.png" alt="Nikosta Systems" className="h-full w-full object-contain" />
+              <img src="/nikosta_square_transparent_1024.png" alt="Nikosta Systems" className="h-full w-full object-contain" />
             </div>
             <span className="mt-2 text-xs tracking-widest text-marina-200 font-semibold uppercase">Nikosta Systems</span>
           </div>

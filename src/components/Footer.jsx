@@ -10,7 +10,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="flex items-center gap-4">
             <div className="h-10 w-10 rounded-full bg-navy-900/70 border border-marina-200/30 p-1.5 shadow-lg overflow-hidden flex items-center justify-center">
-              <img src="/logo.png" alt="Nikosta Systems" className="h-full w-full object-contain" />
+              <img src="/nikosta_square_transparent_1024.png" alt="Nikosta Systems" className="h-full w-full object-contain" />
             </div>
             <div>
               <h4 className="text-lg font-light text-marina-200 mb-0">Nikosta Systems</h4>

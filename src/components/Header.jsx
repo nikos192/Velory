@@ -6,7 +6,7 @@ export default function Header({ onScrollToSection }) {
       <div className="max-w-7xl mx-auto px-6 md:px-8 py-6 flex justify-between items-center text-marina-100">
         <div className="flex items-center gap-4">
           <div className="h-10 w-10 md:h-12 md:w-12 rounded-full bg-navy-900/70 border border-marina-200/30 p-1.5 shadow-lg overflow-hidden flex items-center justify-center">
-            <img src="/logo.png" alt="Nikosta Systems" className="h-full w-full object-contain" />
+            <img src="/nikosta_square_transparent_1024.png" alt="Nikosta Systems" className="h-full w-full object-contain" />
           </div>
         </div>
         
