@@ -24,6 +24,7 @@ export default function Examples() {
       description: "Clean service pages, gallery, and premium positioning.",
       tag: 'Detailing',
       preview: 'https://selsauto.vercel.app/',
+      previewImage: '/hero-sample.jpg',
       link: 'https://selsauto.vercel.app/'
     }
   ]
@@ -52,13 +53,23 @@ export default function Examples() {
             >
               <GlassCard className="rounded-2xl overflow-hidden h-full card-hover border border-white/10 group-hover:border-white/25 transition-colors">
                 <div className="relative h-48 w-full overflow-hidden bg-slate-950">
-                  <iframe
-                    title={`${example.name} preview`}
-                    src={example.preview}
-                    className="absolute left-0 top-0 h-[720px] w-[1200px] origin-top-left scale-[0.33] pointer-events-none"
-                    loading="lazy"
-                    referrerPolicy="no-referrer"
-                  />
+                  {example.previewImage ? (
+                    <img
+                      src={example.previewImage}
+                      alt={`${example.name} preview`}
+                      className="absolute left-0 top-0 h-full w-full object-cover"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  ) : (
+                    <iframe
+                      title={`${example.name} preview`}
+                      src={example.preview}
+                      className="absolute left-0 top-0 h-[720px] w-[1200px] origin-top-left scale-[0.33] pointer-events-none"
+                      loading="lazy"
+                      referrerPolicy="no-referrer"
+                    />
+                  )}
                   <div className="absolute inset-0 bg-gradient-to-tr from-slate-950/40 via-transparent to-white/10" aria-hidden="true" />
                   <div className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 bg-white/5" aria-hidden="true" />
                 </div>
