@@ -2,13 +2,14 @@ import React, { useEffect } from 'react'
 
 export default function StructuredData() {
   useEffect(() => {
+    const baseUrl = 'https://velory.systems'
     const organizationSchema = {
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
       "name": "VELORY",
-      "url": "https://www.velory.app",
-      "logo": "https://www.velory.app/velory-logo.png",
-      "image": "https://www.velory.app/velory-logo.png",
+      "url": baseUrl,
+      "logo": `${baseUrl}/velory-logo.png`,
+      "image": `${baseUrl}/velory-logo.png`,
       "description": "VELORY designs fast, modern websites that make local businesses look established and generate more enquiries.",
       "areaServed": [
         {
@@ -86,7 +87,7 @@ export default function StructuredData() {
       "provider": {
         "@type": "LocalBusiness",
         "name": "VELORY",
-        "url": "https://www.velory.app"
+        "url": baseUrl
       },
       "areaServed": {
         "@type": "City",
