@@ -3,6 +3,18 @@ import React from 'react'
 export default function Examples() {
   const examples = [
     {
+      name: "Morgan's Teal",
+      description: "Boutique business example - bold landing, clear services, quick contact flow.",
+      image: 'https://image.thum.io/get/width/1200/https://morgans-teal.vercel.app/',
+      link: 'https://morgans-teal.vercel.app/'
+    },
+    {
+      name: 'North GC Landscape',
+      description: 'Landscape company example - project highlights, services, and trust signals.',
+      image: 'https://image.thum.io/get/width/1200/https://north-gc-landscape-sups-2vij.vercel.app/',
+      link: 'https://north-gc-landscape-sups-2vij.vercel.app/'
+    },
+    {
       name: "Sel's Auto",
       description: "Mechanic and repair shop example — clean service pages, contact and gallery.",
       image: 'https://selsauto.vercel.app/media/photo-of-exterior.png',
@@ -28,7 +40,13 @@ export default function Examples() {
 
         <div className="grid md:grid-cols-3 gap-8 mb-16">
           {examples.map((example, index) => (
-            <div key={index} className="bg-white rounded-xl border border-navy-100 shadow-sm overflow-hidden flex flex-col h-full">
+            <a
+              key={index}
+              href={example.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-white rounded-xl border border-navy-100 shadow-sm overflow-hidden flex flex-col h-full transition-transform duration-200 hover:-translate-y-1"
+            >
               <div className="h-44 bg-navy-50 overflow-hidden">
                 <img src={example.image} alt={example.name} className="w-full h-full object-cover" />
               </div>
@@ -39,13 +57,10 @@ export default function Examples() {
                 </div>
                 <div className="mt-auto flex items-center justify-between">
                   <div className="text-sm text-navy-900 font-semibold">From $150</div>
-                  <div className="flex gap-2">
-                    <a href={example.link} target="_blank" rel="noopener noreferrer" className="px-3 py-2 bg-marina-500 text-white rounded-full text-sm hover:bg-marina-400 transition-colors">View demo</a>
-                    <button className="px-3 py-2 border border-navy-200 text-navy-800 rounded-full text-sm hover:border-marina-300 hover:text-navy-900 transition-colors">Request Quote</button>
-                  </div>
+                  <span className="px-3 py-2 bg-marina-500 text-white rounded-full text-sm">View demo</span>
                 </div>
               </div>
-            </div>
+            </a>
           ))}
         </div>
 
