@@ -122,8 +122,12 @@ export default function StructuredData() {
 
     // Cleanup function
     return () => {
-      document.head.removeChild(orgScript)
-      document.head.removeChild(serviceScript)
+      if (orgScript.parentNode) {
+        document.head.removeChild(orgScript)
+      }
+      if (serviceScript.parentNode) {
+        document.head.removeChild(serviceScript)
+      }
     }
   }, [])
 
