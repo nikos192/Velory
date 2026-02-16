@@ -1,4 +1,7 @@
 import React, { useState } from 'react'
+import Section from './Section'
+import GlassCard from './GlassCard'
+import AnimatedInView from './AnimatedInView'
 
 export default function Contact() {
   const smsNumber = '+61497469408'
@@ -38,19 +41,20 @@ export default function Contact() {
   }
 
   return (
-    <section id="contact" className="py-24 md:py-32 bg-slate-950 reveal">
-      <div className="max-w-5xl mx-auto px-6 md:px-8">
-        <div className="text-center mb-16">
-          <p className="text-sm uppercase tracking-[0.3em] text-marina-300/80">Contact</p>
-          <h2 className="mt-4 mb-4">Let's talk</h2>
-          <p className="text-lg text-slate-300 font-light">
-            A calm, no-pressure conversation about your website goals.
+    <Section id="contact">
+      <AnimatedInView>
+        <div className="text-center max-w-3xl mx-auto">
+          <p className="eyebrow">Final step</p>
+          <h2 className="mt-4 mb-4">Get your website started today</h2>
+          <p className="body-lg">
+            Fast turnaround, premium design, and a website that gets you more enquiries.
           </p>
         </div>
+      </AnimatedInView>
 
-        <div className="grid md:grid-cols-2 gap-12">
-          {/* Contact Form */}
-          <div className="glass-card rounded-3xl p-8 md:p-10">
+      <AnimatedInView className="mt-12">
+        <div className="grid md:grid-cols-2 gap-10">
+          <GlassCard className="rounded-3xl p-8 md:p-10">
             <h3 className="text-xl font-light mb-8 text-white">Send us a message</h3>
 
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -119,7 +123,7 @@ export default function Contact() {
 
               <button
                 type="submit"
-                className="w-full px-6 py-3 rounded-lg bg-gradient-to-r from-marina-400 to-sky-400 text-slate-950 font-semibold shadow-[0_14px_30px_rgba(56,189,248,0.35)] transition-transform duration-200 hover:scale-[1.01]"
+                className="w-full px-6 py-3 rounded-lg bg-gradient-to-r from-marina-400 to-sky-400 text-slate-950 font-semibold shadow-[0_14px_30px_rgba(56,189,248,0.35)] transition-transform duration-200 hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
               >
                 {submitted ? 'Thanks! We\'ll be in touch.' : 'Send Message'}
               </button>
@@ -130,10 +134,9 @@ export default function Contact() {
                 </p>
               )}
             </form>
-          </div>
+          </GlassCard>
 
-          {/* Contact Info */}
-          <div className="glass-card rounded-3xl p-8 md:p-10">
+          <GlassCard className="rounded-3xl p-8 md:p-10">
             <h3 className="text-xl font-light mb-8 text-white">Get in touch</h3>
             
             <div className="space-y-10">
@@ -146,7 +149,7 @@ export default function Contact() {
                     0497 469 408
                 </a>
                 <p className="text-sm text-slate-400 mt-2 font-light">
-                  Call or text us. We're usually available during business hours.
+                  Call or text us. We respond quickly during business hours.
                 </p>
               </div>
 
@@ -176,9 +179,9 @@ export default function Contact() {
                 </p>
               </div>
             </div>
-          </div>
+          </GlassCard>
         </div>
-      </div>
-    </section>
+      </AnimatedInView>
+    </Section>
   )
 }

@@ -1,18 +1,22 @@
 import React from 'react'
+import Section from './Section'
+import AnimatedInView from './AnimatedInView'
 
 export default function Faq() {
   return (
-    <section id="faq" className="py-24 md:py-32 bg-slate-950 reveal">
-      <div className="max-w-5xl mx-auto px-6 md:px-8">
+    <Section id="faq">
+      <AnimatedInView>
         <div className="max-w-3xl">
-          <p className="text-sm uppercase tracking-[0.3em] text-marina-300/80">FAQ</p>
+          <p className="eyebrow">FAQ</p>
           <h2 className="mt-4 mb-4">Questions, answered</h2>
-          <p className="text-lg text-slate-300 font-light">
+          <p className="body-lg">
             Quick answers to common questions about working with Nikosta Systems.
           </p>
         </div>
+      </AnimatedInView>
 
-        <dl className="mt-10 space-y-6">
+      <AnimatedInView className="mt-10">
+        <dl className="space-y-6">
           <div>
             <dt className="text-white font-medium">What kinds of businesses do you work with?</dt>
             <dd className="mt-2 text-slate-300 font-light">
@@ -55,7 +59,7 @@ export default function Faq() {
             </dd>
           </div>
         </dl>
-      </div>
-    </section>
+      </AnimatedInView>
+    </Section>
   )
 }

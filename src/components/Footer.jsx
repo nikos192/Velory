@@ -1,12 +1,13 @@
 import React from 'react'
+import Section from './Section'
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
   const contactEmail = 'nikosta.systems@outlook.com'
 
   return (
-    <footer className="bg-slate-950 border-t border-white/10 py-16 text-slate-200">
-      <div className="max-w-6xl mx-auto px-6 md:px-8">
+    <footer className="bg-slate-950 border-t border-white/10 text-slate-200">
+      <Section as="div" className="py-16 md:py-20">
         <div className="grid md:grid-cols-3 gap-12 mb-12">
           {/* Brand */}
           <div className="flex items-center gap-4">
@@ -26,18 +27,18 @@ export default function Footer() {
             <h4 className="text-sm font-medium text-slate-300 mb-4">Links</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <a href="#services" className="text-slate-400 hover:text-white transition-colors font-light">
-                  Services
+                <a href="#work" className="text-slate-400 hover:text-white transition-colors font-light">
+                  Work
                 </a>
               </li>
               <li>
                 <a href="#how-it-works" className="text-slate-400 hover:text-white transition-colors font-light">
-                  How it works
+                  Process
                 </a>
               </li>
               <li>
-                <a href="#who-its-for" className="text-slate-400 hover:text-white transition-colors font-light">
-                  Who it's for
+                <a href="#benefits" className="text-slate-400 hover:text-white transition-colors font-light">
+                  Benefits
                 </a>
               </li>
               <li>
@@ -82,7 +83,7 @@ export default function Footer() {
             Premium web design for local businesses.
           </p>
         </div>
-      </div>
+      </Section>
     </footer>
   )
 }

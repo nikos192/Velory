@@ -1,4 +1,7 @@
 import React from 'react'
+import Section from './Section'
+import GlassCard from './GlassCard'
+import AnimatedInView from './AnimatedInView'
 
 export default function HowItWorks() {
   const steps = [
@@ -17,26 +20,28 @@ export default function HowItWorks() {
   ]
 
   return (
-    <section id="how-it-works" className="py-24 md:py-32 bg-slate-950 reveal">
-      <div className="max-w-6xl mx-auto px-6 md:px-8">
-        <div className="text-center mb-16">
-          <p className="text-sm uppercase tracking-[0.3em] text-marina-300/80">Process</p>
+    <Section id="how-it-works">
+      <AnimatedInView>
+        <div className="text-center max-w-3xl mx-auto">
+          <p className="eyebrow">Process</p>
           <h2 className="mt-4 mb-4">How It Works</h2>
-          <p className="text-lg text-slate-300 font-light">Three precise steps, zero noise.</p>
+          <p className="body-lg">Three precise steps, zero noise.</p>
         </div>
+      </AnimatedInView>
 
-        <div className="grid md:grid-cols-3 gap-8">
+      <AnimatedInView className="mt-12">
+        <div className="grid gap-6 md:grid-cols-3">
           {steps.map((step, index) => (
-            <div key={step.title} className="glass-card rounded-2xl p-8 hover:-translate-y-2 transition-transform duration-300">
+            <GlassCard key={step.title} className="rounded-2xl p-8 card-hover">
               <div className="w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white font-semibold mb-6">
                 {index + 1}
               </div>
               <h3 className="mb-4">{step.title}</h3>
-              <p className="text-slate-300 font-light leading-relaxed">{step.description}</p>
-            </div>
+              <p className="text-white/70 font-light leading-relaxed">{step.description}</p>
+            </GlassCard>
           ))}
         </div>
-      </div>
-    </section>
+      </AnimatedInView>
+    </Section>
   )
 }

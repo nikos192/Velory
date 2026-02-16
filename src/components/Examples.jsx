@@ -1,63 +1,80 @@
 import React from 'react'
+import Section from './Section'
+import GlassCard from './GlassCard'
+import AnimatedInView from './AnimatedInView'
 
 export default function Examples() {
   const examples = [
     {
       name: "Morgan's Mobile Mechanic",
       description: "Bold landing, clear services, and frictionless contact flow.",
+      tag: 'Mechanic',
       image: '/hero.png',
       link: 'https://morgans-teal.vercel.app/'
     },
     {
       name: 'North GC Landscape',
       description: 'Project highlights, services, and trust signals that convert.',
+      tag: 'Trades',
       image: '/hero-sample.jpg',
       link: 'https://north-gc-landscape-sups-2vij.vercel.app/'
     },
     {
       name: "Sel's Auto",
       description: "Clean service pages, gallery, and premium positioning.",
+      tag: 'Detailing',
       image: '/hero.png',
       link: 'https://selsauto.vercel.app/'
     }
   ]
 
   return (
-    <section id="examples" className="py-24 md:py-32 bg-slate-950 reveal">
-      <div className="max-w-6xl mx-auto px-6 md:px-8">
-        <div className="text-center mb-16">
-          <p className="text-sm uppercase tracking-[0.3em] text-marina-300/80">Portfolio</p>
+    <Section id="work">
+      <AnimatedInView>
+        <div className="text-center max-w-3xl mx-auto">
+          <p className="eyebrow">Portfolio</p>
           <h2 className="mt-4 mb-4">Recent Work</h2>
-          <p className="text-lg text-slate-300 font-light">
+          <p className="body-lg">
             A curated selection of high-converting local business websites.
           </p>
         </div>
+      </AnimatedInView>
 
-        <div className="grid md:grid-cols-3 gap-8 mb-12">
-          {examples.map((example, index) => (
+      <AnimatedInView className="mt-12">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {examples.map((example) => (
             <a
-              key={index}
+              key={example.name}
               href={example.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="glass-card rounded-2xl overflow-hidden flex flex-col h-full transition-transform duration-300 hover:-translate-y-2"
+              className="group"
             >
-              <img src={example.image} alt={`${example.name} website preview`} className="h-44 w-full object-cover" />
-              <div className="p-6 flex-1 flex flex-col">
-                <div>
-                  <h3 className="text-lg font-medium text-white mb-2">{example.name}</h3>
-                  <p className="text-sm text-slate-300 mb-6 font-light">{example.description}</p>
+              <GlassCard className="rounded-2xl overflow-hidden h-full card-hover border border-white/10 group-hover:border-white/25 transition-colors">
+                <div className="overflow-hidden">
+                  <img
+                    src={example.image}
+                    alt={`${example.name} website preview`}
+                    className="h-48 w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+                    loading="lazy"
+                    decoding="async"
+                  />
                 </div>
-                <div className="mt-auto flex items-center justify-end">
-                  <span className="px-4 py-2 bg-white/10 text-white rounded-full text-sm border border-white/10">
-                    View Website
-                  </span>
+                <div className="p-6 flex-1 flex flex-col">
+                  <span className="text-xs uppercase tracking-[0.2em] text-white/50">{example.tag}</span>
+                  <h3 className="text-lg font-semibold mt-3 mb-3">{example.name}</h3>
+                  <p className="text-sm text-white/70 mb-6 font-light">{example.description}</p>
+                  <div className="mt-auto">
+                    <span className="inline-flex items-center px-4 py-2 rounded-full border border-white/15 text-sm text-white/80">
+                      View site
+                    </span>
+                  </div>
                 </div>
-              </div>
+              </GlassCard>
             </a>
           ))}
         </div>
-      </div>
-    </section>
+      </AnimatedInView>
+    </Section>
   )
 }

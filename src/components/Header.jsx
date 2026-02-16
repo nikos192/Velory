@@ -20,17 +20,17 @@ export default function Header({ onScrollToSection }) {
         </div>
 
         <nav className="hidden md:flex gap-8 text-sm text-slate-200">
-          <a href="#services" onClick={handleNavClick('services')} className="hover:text-white transition-colors">
-            Services
+          <a href="#work" onClick={handleNavClick('work')} className="hover:text-white transition-colors">
+            Work
           </a>
           <a href="#how-it-works" onClick={handleNavClick('how-it-works')} className="hover:text-white transition-colors">
-            How it works
+            Process
           </a>
-          <a href="#who-its-for" onClick={handleNavClick('who-its-for')} className="hover:text-white transition-colors">
-            Who it's for
+          <a href="#benefits" onClick={handleNavClick('benefits')} className="hover:text-white transition-colors">
+            Benefits
           </a>
-          <a href="#examples" onClick={handleNavClick('examples')} className="hover:text-white transition-colors">
-            Examples
+          <a href="#faq" onClick={handleNavClick('faq')} className="hover:text-white transition-colors">
+            FAQ
           </a>
           <a href="#contact" onClick={handleNavClick('contact')} className="hover:text-white transition-colors">
             Contact
