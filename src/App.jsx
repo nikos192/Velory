@@ -4,6 +4,7 @@ import Hero from './components/Hero'
 import HowItWorks from './components/HowItWorks'
 import WhoItFor from './components/WhoItFor'
 import Why from './components/Why'
+import Examples from './components/Examples'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 
@@ -22,6 +23,7 @@ function App() {
       <HowItWorks />
       <WhoItFor />
       <Why />
+      <Examples />
       <Contact />
       <Footer />
     </div>
