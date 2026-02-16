@@ -13,7 +13,6 @@ import Faq from './components/Faq'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 import StructuredData from './components/StructuredData'
-import CtaSection from './components/CtaSection'
 
 function App() {
   useEffect(() => {
@@ -59,7 +58,6 @@ function App() {
       <HowItWorks />
       <WhoItFor />
       <Why />
-      <CtaSection />
       <Faq />
       <Contact />
       <Footer />
