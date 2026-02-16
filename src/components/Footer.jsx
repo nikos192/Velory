@@ -25,6 +25,11 @@ export default function Footer() {
             <h4 className="text-sm font-medium text-marina-200 mb-4">Links</h4>
             <ul className="space-y-2 text-sm">
               <li>
+                <a href="#services" className="text-marina-200 hover:text-white transition-colors font-light">
+                  Services
+                </a>
+              </li>
+              <li>
                 <a href="#how-it-works" className="text-marina-200 hover:text-white transition-colors font-light">
                   How it works
                 </a>
@@ -32,6 +37,11 @@ export default function Footer() {
               <li>
                 <a href="#who-its-for" className="text-marina-200 hover:text-white transition-colors font-light">
                   Who it's for
+                </a>
+              </li>
+              <li>
+                <a href="#faq" className="text-marina-200 hover:text-white transition-colors font-light">
+                  FAQ
                 </a>
               </li>
               <li>

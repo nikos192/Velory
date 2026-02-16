@@ -1,6 +1,15 @@
 import React from 'react'
 
 export default function Header({ onScrollToSection }) {
+  const handleNavClick = (sectionId) => (event) => {
+    if (!onScrollToSection) {
+      return
+    }
+
+    event.preventDefault()
+    onScrollToSection(sectionId)
+  }
+
   return (
     <header className="fixed top-0 left-0 right-0 bg-navy-900 z-50 border-b border-navy-800">
       <div className="max-w-7xl mx-auto px-6 md:px-8 py-6 flex justify-between items-center text-marina-100">
@@ -11,38 +20,50 @@ export default function Header({ onScrollToSection }) {
         </div>
         
         <nav className="hidden md:flex gap-8 text-sm">
-          <button
-            onClick={() => onScrollToSection('how-it-works')}
+          <a
+            href="#services"
+            onClick={handleNavClick('services')}
+            className="text-marina-100/80 hover:text-marina-50 transition-colors"
+          >
+            Services
+          </a>
+          <a
+            href="#how-it-works"
+            onClick={handleNavClick('how-it-works')}
             className="text-marina-100/80 hover:text-marina-50 transition-colors"
           >
             How it works
-          </button>
-          <button
-            onClick={() => onScrollToSection('who-its-for')}
+          </a>
+          <a
+            href="#who-its-for"
+            onClick={handleNavClick('who-its-for')}
             className="text-marina-100/80 hover:text-marina-50 transition-colors"
           >
             Who it's for
-          </button>
-          <button
-            onClick={() => onScrollToSection('examples')}
+          </a>
+          <a
+            href="#examples"
+            onClick={handleNavClick('examples')}
             className="text-marina-100/80 hover:text-marina-50 transition-colors"
           >
             Examples
-          </button>
-          <button
-            onClick={() => onScrollToSection('contact')}
+          </a>
+          <a
+            href="#contact"
+            onClick={handleNavClick('contact')}
             className="text-marina-100/80 hover:text-marina-50 transition-colors"
           >
             Contact
-          </button>
+          </a>
         </nav>
 
-        <button
-          onClick={() => onScrollToSection('contact')}
+        <a
+          href="#contact"
+          onClick={handleNavClick('contact')}
           className="text-sm px-5 py-2 bg-marina-500 text-white rounded-full hover:bg-marina-400 transition-colors"
         >
           Get in touch
-        </button>
+        </a>
       </div>
     </header>
   )

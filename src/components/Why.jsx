@@ -62,7 +62,7 @@ export default function Why() {
               No pressure, no obligations. Just a straightforward conversation.
             </p>
             <a
-              href="sms:+61497469408"
+              href="#contact"
               className="inline-block px-10 py-4 bg-marina-400 text-navy-900 font-medium rounded-full hover:bg-marina-300 border-2 border-marina-300 transition-colors"
             >
               Send a Message

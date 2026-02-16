@@ -2,11 +2,12 @@ import React, { useState } from 'react'
 import Header from './components/Header'
 import Hero from './components/Hero'
 import WhatWeDo from './components/WhatWeDo'
+import Services from './components/Services'
 import HowItWorks from './components/HowItWorks'
 import WhoItFor from './components/WhoItFor'
 import Why from './components/Why'
 import Examples from './components/Examples'
-import FAQ from './components/FAQ'
+import Faq from './components/Faq'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 import StructuredData from './components/StructuredData'
@@ -25,11 +26,12 @@ function App() {
       <Header onScrollToSection={scrollToSection} />
       <Hero onScrollToSection={scrollToSection} />
       <WhatWeDo />
+      <Services />
       <HowItWorks />
       <WhoItFor />
       <Why />
       <Examples />
-      <FAQ />
+      <Faq />
       <Contact />
       <Footer />
     </div>
