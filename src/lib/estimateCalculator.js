@@ -33,7 +33,7 @@ export function calculateEstimate(selection) {
   const oneTimeLineItems = [
     {
       key: 'basePackage',
-      label: 'Base package (Home + Contact + Services + Gallery)',
+      label: 'Base package (Home + About + Contact + Services + Gallery)',
       description: ESTIMATOR_CONTENT.base.description,
       amount: PRICING_CONFIG.basePackage,
     },

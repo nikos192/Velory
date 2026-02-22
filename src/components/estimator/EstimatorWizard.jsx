@@ -44,7 +44,7 @@ export default function EstimatorWizard() {
             <p className="text-slate-300 leading-relaxed">{ESTIMATOR_CONTENT.base.description}</p>
             <div className="rounded-xl border border-white/10 bg-white/5 p-4">
               <p className="text-white font-medium">{ESTIMATOR_CONTENT.base.title}</p>
-              <p className="text-slate-300 text-sm mt-1">Home + Contact + Services + Gallery</p>
+              <p className="text-slate-300 text-sm mt-1">Home + About + Contact + Services + Gallery</p>
               <p className="text-sky-300 font-semibold mt-2">{formatAud(PRICING_CONFIG.basePackage)}</p>
             </div>
           </div>

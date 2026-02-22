@@ -19,7 +19,7 @@ export const ESTIMATOR_CONTENT = {
   base: {
     title: 'Base package',
     description:
-      'This includes a modern 4-page website with Home, Contact, Services, and Gallery pages to establish your business online.',
+      'This includes a modern 5-page website with Home, About, Contact, Services, and Gallery pages to establish your business online.',
   },
   extraPages: {
     title: 'Extra pages',
