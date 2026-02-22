@@ -1,5 +1,6 @@
 import './globals.css'
 import { SpeedInsights } from '@vercel/speed-insights/next'
+import { Analytics } from '@vercel/analytics/next'
 import Script from 'next/script'
 
 const siteUrl = 'https://velory.systems'
@@ -65,6 +66,7 @@ export default function RootLayout({ children }) {
         </noscript>
         {children}
         <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   )
