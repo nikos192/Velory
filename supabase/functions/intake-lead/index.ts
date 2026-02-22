@@ -36,14 +36,19 @@ serve(async (req) => {
       source_url: body.sourceUrl ? String(body.sourceUrl).trim() : null,
       submitted_at: body.submittedAt ?? new Date().toISOString(),
       user_agent: body.userAgent ?? null,
-      referer: body.referer ?? null
+      referer: body.referer ?? null,
+      utm_source: body.utm_source ?? null,
+      utm_medium: body.utm_medium ?? null,
+      utm_campaign: body.utm_campaign ?? null,
+      utm_content: body.utm_content ?? null,
+      utm_term: body.utm_term ?? null,
     };
 
     const estimatorLead = {
       estimator_breakdown: body.estimator_breakdown ?? null,
       estimator_total: typeof body.estimator_total === "number" ? body.estimator_total : null,
       selected_addons: Array.isArray(body.selected_addons) ? body.selected_addons : null,
-      monthly_care_plan: typeof body.monthly_care_plan === "number" ? body.monthly_care_plan : null
+      monthly_care_plan: typeof body.monthly_care_plan === "number" ? body.monthly_care_plan : null,
     };
 
     let { error } = await supabase.from("leads").insert({

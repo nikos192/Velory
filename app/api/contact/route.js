@@ -16,13 +16,8 @@ function sanitizeStringArray(value) {
     .slice(0, 30)
 }
 
-function sanitizeEstimatorBreakdown(value) {
-  if (!value || typeof value !== 'object') return null
-  try {
-    return JSON.parse(JSON.stringify(value))
-  } catch {
-    return null
-  }
+function sanitizeUtmParam(value, maxLength = 100) {
+  return value ? clamp(trimString(value), maxLength) : null
 }
 
 async function sendLeadToWebhook(payload) {
@@ -103,6 +98,12 @@ export async function POST(request) {
     const selectedAddons = sanitizeStringArray(body?.selected_addons)
     const estimatorBreakdown = sanitizeEstimatorBreakdown(body?.estimator_breakdown)
 
+    const utmSource = sanitizeUtmParam(body?.utm_source)
+    const utmMedium = sanitizeUtmParam(body?.utm_medium)
+    const utmCampaign = sanitizeUtmParam(body?.utm_campaign)
+    const utmContent = sanitizeUtmParam(body?.utm_content)
+    const utmTerm = sanitizeUtmParam(body?.utm_term)
+
     // Honeypot field: silently succeed for bots.
     if (website) {
       return Response.json({ ok: true }, { status: 200 })
@@ -128,6 +129,11 @@ export async function POST(request) {
       selected_addons: selectedAddons,
       estimator_breakdown: estimatorBreakdown,
       monthly_care_plan: monthlyCarePlan,
+      utm_source: utmSource,
+      utm_medium: utmMedium,
+      utm_campaign: utmCampaign,
+      utm_content: utmContent,
+      utm_term: utmTerm,
     }
 
     const webhookResult = await sendLeadToWebhook(payload)

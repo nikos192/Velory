@@ -5,6 +5,7 @@ import AnimatedInView from './AnimatedInView'
 import { trackPixelEvent } from '../lib/facebookPixel'
 import { siteConfig } from '../lib/siteConfig'
 import { ESTIMATOR_STORAGE_KEY, formatAud } from '../lib/estimateCalculator'
+import { captureUtmParams } from '../lib/utmCapture'
 
 export default function Contact({ estimatorPrefill }) {
   const emailAddress = siteConfig.contactEmail
@@ -15,9 +16,15 @@ export default function Contact({ estimatorPrefill }) {
     message: '',
     website: '',
   })
+  const [utmParams, setUtmParams] = useState(null)
   const [estimatorData, setEstimatorData] = useState(null)
   const [status, setStatus] = useState('idle')
   const [statusMessage, setStatusMessage] = useState('')
+
+  useEffect(() => {
+    const utm = captureUtmParams()
+    setUtmParams(utm)
+  }, [])
 
   const applyEstimatorData = (prefill) => {
     if (!prefill) return
@@ -84,6 +91,11 @@ export default function Contact({ estimatorPrefill }) {
           estimator_total: estimatorData?.estimator_total || null,
           selected_addons: estimatorData?.selected_addons || [],
           monthly_care_plan: estimatorData?.monthly_care_plan || null,
+          utm_source: utmParams?.source || null,
+          utm_medium: utmParams?.medium || null,
+          utm_campaign: utmParams?.campaign || null,
+          utm_content: utmParams?.content || null,
+          utm_term: utmParams?.term || null,
         }),
       })
 
@@ -94,6 +106,7 @@ export default function Contact({ estimatorPrefill }) {
       }
 
       trackPixelEvent('Lead')
+      trackPixelEvent('Purchase')
       setStatus('success')
       setStatusMessage("Thanks, your message has been sent. We'll reply shortly.")
       setEstimatorData(null)
