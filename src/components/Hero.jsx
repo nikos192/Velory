@@ -1,6 +1,7 @@
 import React from 'react'
 import AnimatedInView from './AnimatedInView'
 import GlowBackground from './GlowBackground'
+import { trackPixelEvent } from '../lib/facebookPixel'
 
 export default function Hero({ onScrollToSection }) {
   return (
@@ -25,6 +26,7 @@ export default function Hero({ onScrollToSection }) {
               <a
                 href="#contact"
                 onClick={(event) => {
+                  trackPixelEvent('Contact')
                   event.preventDefault()
                   onScrollToSection('contact')
                 }}
@@ -33,7 +35,13 @@ export default function Hero({ onScrollToSection }) {
                 Get Started
               </a>
 
-              <a href="#work" className="btn-secondary">
+              <a
+                href="#work"
+                onClick={() => {
+                  trackPixelEvent('ViewContent')
+                }}
+                className="btn-secondary"
+              >
                 View Examples
               </a>
             </div>

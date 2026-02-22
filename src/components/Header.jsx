@@ -1,4 +1,5 @@
 import React from 'react'
+import { trackPixelEvent } from '../lib/facebookPixel'
 
 export default function Header({ onScrollToSection }) {
   const handleNavClick = (sectionId) => (event) => {
@@ -40,7 +41,10 @@ export default function Header({ onScrollToSection }) {
 
         <a
           href="#contact"
-          onClick={handleNavClick('contact')}
+          onClick={(event) => {
+            trackPixelEvent('Contact')
+            handleNavClick('contact')(event)
+          }}
           className="text-sm px-5 py-2 rounded-full border border-white/20 text-white hover:border-white/40 transition-colors"
         >
           Get in touch

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Section from './Section'
 import GlassCard from './GlassCard'
 import AnimatedInView from './AnimatedInView'
+import { trackPixelEvent } from '../lib/facebookPixel'
 
 export default function Contact() {
   const smsNumber = '+61497469408'
@@ -24,6 +25,8 @@ export default function Contact() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    trackPixelEvent('Lead')
+
     const messageLines = [
       `Name: ${formData.name}`,
       `Business: ${formData.businessName}`,
@@ -144,9 +147,12 @@ export default function Contact() {
                 <h4 className="text-sm font-medium text-slate-200 mb-2">Phone</h4>
                 <a
                   href="tel:+61497469408"
-                    className="text-lg text-white hover:text-marina-300 transition-colors font-medium"
-                  >
-                    0497 469 408
+                  onClick={() => {
+                    trackPixelEvent('Contact')
+                  }}
+                  className="text-lg text-white hover:text-marina-300 transition-colors font-medium"
+                >
+                  0497 469 408
                 </a>
                 <p className="text-sm text-slate-400 mt-2 font-light">
                   Call or text us. We respond quickly during business hours.
