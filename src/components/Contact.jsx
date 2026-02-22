@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Section from './Section'
 import GlassCard from './GlassCard'
 import AnimatedInView from './AnimatedInView'
 import { trackPixelEvent } from '../lib/facebookPixel'
 import { siteConfig } from '../lib/siteConfig'
+import { formatAud } from '../lib/estimatorPricing'
 
-export default function Contact() {
+export default function Contact({ estimatorPrefill }) {
   const emailAddress = siteConfig.contactEmail
   const [formData, setFormData] = useState({
     name: '',
@@ -14,8 +15,21 @@ export default function Contact() {
     message: '',
     website: '',
   })
+  const [estimatorData, setEstimatorData] = useState(null)
   const [status, setStatus] = useState('idle')
   const [statusMessage, setStatusMessage] = useState('')
+
+  useEffect(() => {
+    if (!estimatorPrefill) return
+
+    setEstimatorData(estimatorPrefill)
+    setFormData((prev) => ({
+      ...prev,
+      message: prev.message
+        ? `${prev.message}\n\n${estimatorPrefill.estimator_summary}`
+        : estimatorPrefill.estimator_summary,
+    }))
+  }, [estimatorPrefill])
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -41,6 +55,10 @@ export default function Contact() {
         body: JSON.stringify({
           ...formData,
           sourceUrl: window.location.href,
+          estimator_breakdown: estimatorData?.estimator_breakdown || null,
+          estimator_total: estimatorData?.estimator_total || null,
+          selected_addons: estimatorData?.selected_addons || [],
+          monthly_care_plan: estimatorData?.monthly_care_plan || null,
         }),
       })
 
@@ -53,6 +71,7 @@ export default function Contact() {
       trackPixelEvent('Lead')
       setStatus('success')
       setStatusMessage("Thanks, your message has been sent. We'll reply shortly.")
+      setEstimatorData(null)
       setFormData({ name: '', businessName: '', phone: '', message: '', website: '' })
     } catch (error) {
       setStatus('error')
@@ -78,6 +97,16 @@ export default function Contact() {
         <div className="grid md:grid-cols-2 gap-10">
           <GlassCard className="rounded-3xl p-8 md:p-10">
             <h3 className="text-xl font-light mb-8 text-white">Send us a message</h3>
+
+            {estimatorData && (
+              <div className="mb-6 p-4 rounded-xl border border-marina-300/30 bg-sky-400/10">
+                <p className="text-sm text-sky-100 font-medium">Estimate attached</p>
+                <p className="text-sm text-slate-200 mt-1">
+                  One-time estimate: {formatAud(estimatorData.estimator_total)}
+                  {estimatorData.monthly_care_plan ? ` • Care plan: ${formatAud(estimatorData.monthly_care_plan)}/month` : ''}
+                </p>
+              </div>
+            )}
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>

@@ -8,6 +8,23 @@ function clamp(value, maxLength = MAX_FIELD_LENGTH) {
   return value.slice(0, maxLength)
 }
 
+function sanitizeStringArray(value) {
+  if (!Array.isArray(value)) return []
+  return value
+    .map((item) => clamp(trimString(item), 120))
+    .filter(Boolean)
+    .slice(0, 30)
+}
+
+function sanitizeEstimatorBreakdown(value) {
+  if (!value || typeof value !== 'object') return null
+  try {
+    return JSON.parse(JSON.stringify(value))
+  } catch {
+    return null
+  }
+}
+
 async function sendLeadToWebhook(payload) {
   const webhookUrl = process.env.CONTACT_WEBHOOK_URL
   if (!webhookUrl) return { sent: false }
@@ -38,10 +55,13 @@ async function sendLeadToResend(payload) {
     `Business: ${payload.businessName}`,
     `Phone: ${payload.phone}`,
     `Message: ${payload.message || '(none provided)'}`,
+    payload.estimator_total ? `Estimated total: ${payload.estimator_total} AUD` : null,
+    payload.selected_addons?.length ? `Selected add-ons: ${payload.selected_addons.join(', ')}` : null,
+    payload.monthly_care_plan ? `Monthly care plan: ${payload.monthly_care_plan} AUD/month` : null,
     '',
     `Source URL: ${payload.sourceUrl || 'unknown'}`,
     `Submitted at: ${payload.submittedAt}`,
-  ]
+  ].filter(Boolean)
 
   const response = await fetch('https://api.resend.com/emails', {
     method: 'POST',
@@ -74,6 +94,14 @@ export async function POST(request) {
     const message = clamp(trimString(body?.message))
     const website = trimString(body?.website)
     const sourceUrl = clamp(trimString(body?.sourceUrl), 500)
+    const estimatorTotalRaw = Number(body?.estimator_total)
+    const estimatorTotal = Number.isFinite(estimatorTotalRaw) ? Math.max(0, Math.round(estimatorTotalRaw)) : null
+    const monthlyCarePlanRaw = Number(body?.monthly_care_plan)
+    const monthlyCarePlan = Number.isFinite(monthlyCarePlanRaw)
+      ? Math.max(0, Math.round(monthlyCarePlanRaw))
+      : null
+    const selectedAddons = sanitizeStringArray(body?.selected_addons)
+    const estimatorBreakdown = sanitizeEstimatorBreakdown(body?.estimator_breakdown)
 
     // Honeypot field: silently succeed for bots.
     if (website) {
@@ -96,6 +124,10 @@ export async function POST(request) {
       submittedAt: new Date().toISOString(),
       userAgent: request.headers.get('user-agent') || '',
       referer: request.headers.get('referer') || '',
+      estimator_total: estimatorTotal,
+      selected_addons: selectedAddons,
+      estimator_breakdown: estimatorBreakdown,
+      monthly_care_plan: monthlyCarePlan,
     }
 
     const webhookResult = await sendLeadToWebhook(payload)

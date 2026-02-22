@@ -28,7 +28,7 @@ serve(async (req) => {
       serviceRoleKey
     );
 
-    const { error } = await supabase.from("leads").insert({
+    const baseLead = {
       name: String(body.name).trim(),
       business_name: String(body.businessName).trim(),
       phone: String(body.phone).trim(),
@@ -37,7 +37,32 @@ serve(async (req) => {
       submitted_at: body.submittedAt ?? new Date().toISOString(),
       user_agent: body.userAgent ?? null,
       referer: body.referer ?? null
+    };
+
+    const estimatorLead = {
+      estimator_breakdown: body.estimator_breakdown ?? null,
+      estimator_total: typeof body.estimator_total === "number" ? body.estimator_total : null,
+      selected_addons: Array.isArray(body.selected_addons) ? body.selected_addons : null,
+      monthly_care_plan: typeof body.monthly_care_plan === "number" ? body.monthly_care_plan : null
+    };
+
+    let { error } = await supabase.from("leads").insert({
+      ...baseLead,
+      ...estimatorLead
     });
+
+    if (error && typeof error.message === "string") {
+      const missingEstimatorColumns =
+        error.message.includes("estimator_breakdown") ||
+        error.message.includes("estimator_total") ||
+        error.message.includes("selected_addons") ||
+        error.message.includes("monthly_care_plan");
+
+      if (missingEstimatorColumns) {
+        const fallback = await supabase.from("leads").insert(baseLead);
+        error = fallback.error;
+      }
+    }
 
     if (error) throw error;
 
