@@ -15,7 +15,7 @@ export default function Hero({ onScrollToSection }) {
               Premium Gold Coast Agency
             </div>
             <h1 className="mb-5 leading-tight text-white">
-              Get a premium website for your business in 48 hours
+              Premium websites built fast and focused on results
             </h1>
 
             <p className="body-lg mb-7 max-w-xl">

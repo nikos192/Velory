@@ -4,7 +4,7 @@ import GlassCard from './GlassCard'
 import AnimatedInView from './AnimatedInView'
 import { trackPixelEvent } from '../lib/facebookPixel'
 import { siteConfig } from '../lib/siteConfig'
-import { formatAud } from '../lib/estimatorPricing'
+import { ESTIMATOR_STORAGE_KEY, formatAud } from '../lib/estimateCalculator'
 
 export default function Contact({ estimatorPrefill }) {
   const emailAddress = siteConfig.contactEmail
@@ -19,17 +19,42 @@ export default function Contact({ estimatorPrefill }) {
   const [status, setStatus] = useState('idle')
   const [statusMessage, setStatusMessage] = useState('')
 
+  const applyEstimatorData = (prefill) => {
+    if (!prefill) return
+
+    setEstimatorData(prefill)
+    setFormData((prev) => {
+      const summary = typeof prefill.estimator_summary === 'string' ? prefill.estimator_summary : ''
+      if (!summary) return prev
+      if (prev.message.includes(summary)) return prev
+
+      return {
+        ...prev,
+        message: prev.message ? `${prev.message}\n\n${summary}` : summary,
+      }
+    })
+  }
+
   useEffect(() => {
     if (!estimatorPrefill) return
 
-    setEstimatorData(estimatorPrefill)
-    setFormData((prev) => ({
-      ...prev,
-      message: prev.message
-        ? `${prev.message}\n\n${estimatorPrefill.estimator_summary}`
-        : estimatorPrefill.estimator_summary,
-    }))
+    applyEstimatorData(estimatorPrefill)
   }, [estimatorPrefill])
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    const raw = window.localStorage.getItem(ESTIMATOR_STORAGE_KEY)
+    if (!raw) return
+
+    try {
+      const parsed = JSON.parse(raw)
+      applyEstimatorData(parsed)
+    } catch {
+    } finally {
+      window.localStorage.removeItem(ESTIMATOR_STORAGE_KEY)
+    }
+  }, [])
 
   const handleChange = (e) => {
     const { name, value } = e.target
