@@ -56,7 +56,7 @@ export default function Hero({ onScrollToSection }) {
           <div className="group relative rounded-3xl glass-card p-4 md:p-6 float-slow">
             <div className="absolute -top-6 -right-6 h-20 w-20 rounded-full bg-marina-400/30 blur-2xl" aria-hidden="true" />
             <img
-              src="/hero.png"
+              src="/hero-premium.svg"
               alt="VELORY website mockup"
               className="w-full h-72 md:h-[420px] object-cover rounded-2xl transition-transform duration-300 group-hover:scale-[1.02] group-hover:-rotate-1"
               loading="eager"
