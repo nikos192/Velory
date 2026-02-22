@@ -3,45 +3,63 @@ import Section from './Section'
 import GlassCard from './GlassCard'
 import AnimatedInView from './AnimatedInView'
 import { trackPixelEvent } from '../lib/facebookPixel'
+import { siteConfig } from '../lib/siteConfig'
 
 export default function Contact() {
-  const emailAddress = 'velorysystems@outlook.com'
+  const emailAddress = siteConfig.contactEmail
   const [formData, setFormData] = useState({
     name: '',
     businessName: '',
     phone: '',
     message: '',
+    website: '',
   })
-
-  const [submitted, setSubmitted] = useState(false)
+  const [status, setStatus] = useState('idle')
+  const [statusMessage, setStatusMessage] = useState('')
 
   const handleChange = (e) => {
     const { name, value } = e.target
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [name]: value,
     }))
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    trackPixelEvent('Lead')
+    if (status === 'submitting') return
 
-    const emailBody = encodeURIComponent(
-      `Name: ${formData.name}\n` +
-      `Business: ${formData.businessName}\n` +
-      `Phone: ${formData.phone}\n` +
-      `Message: ${formData.message || '(none)'}`
-    )
+    setStatus('submitting')
+    setStatusMessage('')
 
-    const mailtoLink = `mailto:${emailAddress}?subject=Website Enquiry from ${encodeURIComponent(formData.name)}&body=${emailBody}`
-    window.location.href = mailtoLink
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...formData,
+          sourceUrl: window.location.href,
+        }),
+      })
 
-    setSubmitted(true)
-    setTimeout(() => {
-      setFormData({ name: '', businessName: '', phone: '', message: '' })
-      setSubmitted(false)
-    }, 2000)
+      const result = await response.json()
+
+      if (!response.ok || !result.ok) {
+        throw new Error(result?.error || 'Unable to send your message at the moment.')
+      }
+
+      trackPixelEvent('Lead')
+      setStatus('success')
+      setStatusMessage("Thanks, your message has been sent. We'll reply shortly.")
+      setFormData({ name: '', businessName: '', phone: '', message: '', website: '' })
+    } catch (error) {
+      setStatus('error')
+      setStatusMessage(
+        `${error.message} You can also contact us directly at ${emailAddress} or ${siteConfig.contactPhoneDisplay}.`
+      )
+    }
   }
 
   return (
@@ -125,18 +143,37 @@ export default function Contact() {
                 />
               </div>
 
+              <input
+                type="text"
+                name="website"
+                value={formData.website}
+                onChange={handleChange}
+                tabIndex="-1"
+                autoComplete="off"
+                className="hidden"
+                aria-hidden="true"
+              />
+
               <button
                 type="submit"
+                disabled={status === 'submitting'}
                 className="w-full px-6 py-3 rounded-lg bg-gradient-to-r from-marina-400 to-sky-400 text-slate-950 font-semibold shadow-[0_14px_30px_rgba(56,189,248,0.35)] transition-transform duration-200 hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
               >
-                {submitted ? 'Opening email...' : 'Send Message'}
+                {status === 'submitting' ? 'Sending...' : 'Send Message'}
               </button>
 
-              {submitted && (
+              {status === 'success' && (
                 <p className="text-emerald-400 text-sm text-center font-light">
-                  ✓ Opening your email client. Send the message to get in touch.
+                  {statusMessage}
                 </p>
               )}
+
+              {status === 'error' && <p className="text-rose-300 text-sm text-center font-light">{statusMessage}</p>}
+
+              <p className="text-xs text-slate-400 text-center font-light">
+                By sending this form, you agree to our <a href="/privacy-policy">Privacy Policy</a> and{' '}
+                <a href="/terms">Terms of Service</a>.
+              </p>
             </form>
           </GlassCard>
 
@@ -147,13 +184,13 @@ export default function Contact() {
               <div>
                 <h4 className="text-sm font-medium text-slate-200 mb-2">Phone</h4>
                 <a
-                  href="tel:+61497469408"
+                  href={siteConfig.contactPhoneHref}
                   onClick={() => {
                     trackPixelEvent('Contact')
                   }}
                   className="text-lg text-white hover:text-marina-300 transition-colors font-medium"
                 >
-                  0497 469 408
+                  {siteConfig.contactPhoneDisplay}
                 </a>
                 <p className="text-sm text-slate-400 mt-2 font-light">
                   Call or text us. We respond quickly during business hours.
@@ -163,13 +200,13 @@ export default function Contact() {
               <div>
                 <h4 className="text-sm font-medium text-slate-200 mb-2">Email</h4>
                 <a
-                  href="mailto:velorysystems@outlook.com"
+                  href={`mailto:${emailAddress}`}
                   onClick={() => {
                     trackPixelEvent('Contact')
                   }}
                   className="text-lg text-white hover:text-marina-300 transition-colors font-medium"
                 >
-                  velorysystems@outlook.com
+                  {emailAddress}
                 </a>
                 <p className="text-sm text-slate-400 mt-2 font-light">
                   Send us an email anytime. We'll respond within 24 hours.

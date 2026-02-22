@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react'
+import { siteConfig } from '../lib/siteConfig'
 
 export default function StructuredData() {
   useEffect(() => {
     const baseUrl = 'https://velory.systems'
+    const contactEmail = siteConfig.contactEmail
     const organizationSchema = {
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
@@ -34,10 +36,12 @@ export default function StructuredData() {
       "contactPoint": {
         "@type": "ContactPoint",
         "telephone": "+61497469408",
+        "email": contactEmail,
         "contactType": "customer service",
         "areaServed": "AU",
         "availableLanguage": "English"
       },
+      "email": contactEmail,
       "telephone": "+61497469408",
       "makesOffer": [
         {

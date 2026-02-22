@@ -3,7 +3,13 @@ import Section from './Section'
 import GlassCard from './GlassCard'
 import AnimatedInView from './AnimatedInView'
 
-const logos = ['Gold Coast Plumbing', 'Coastal Auto', 'Brightway Hair', 'Pacific Landscapes', 'TradePro']
+const logos = ['Plumbing', 'Auto Services', 'Hair & Beauty', 'Landscaping', 'Mobile Trades']
+
+const proofHighlights = [
+  { label: 'Typical launch window', value: '48 hrs' },
+  { label: 'Mobile-first builds', value: '100%' },
+  { label: 'Local niche focus', value: 'Service businesses' },
+]
 
 const testimonials = [
   {
@@ -28,11 +34,22 @@ export default function SocialProof() {
     <Section id="social-proof">
       <AnimatedInView>
         <div className="text-center max-w-3xl mx-auto">
-          <p className="eyebrow">Trusted by local businesses</p>
+          <p className="eyebrow">Built for local operators</p>
           <h2 className="mt-4 mb-4">Social proof that builds confidence</h2>
           <p className="body-lg">
-            Premium websites that help local businesses look established and win more enquiries.
+            We focus on service-based businesses where trust, speed, and clear calls-to-action matter most.
           </p>
+        </div>
+      </AnimatedInView>
+
+      <AnimatedInView className="mt-8">
+        <div className="grid gap-4 md:grid-cols-3">
+          {proofHighlights.map((item) => (
+            <GlassCard key={item.label} className="rounded-2xl p-6">
+              <p className="text-2xl font-semibold text-white">{item.value}</p>
+              <p className="text-sm text-slate-300 mt-2">{item.label}</p>
+            </GlassCard>
+          ))}
         </div>
       </AnimatedInView>
 

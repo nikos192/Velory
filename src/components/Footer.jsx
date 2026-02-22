@@ -1,9 +1,10 @@
 import React from 'react'
 import Section from './Section'
+import { siteConfig } from '../lib/siteConfig'
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
-  const contactEmail = 'velorysystems@outlook.com'
+  const contactEmail = siteConfig.contactEmail
 
   return (
     <footer className="bg-slate-950 border-t border-white/10 text-slate-200">
@@ -51,6 +52,16 @@ export default function Footer() {
                   Contact us
                 </a>
               </li>
+              <li>
+                <a href="/privacy-policy" className="text-slate-400 hover:text-white transition-colors font-light">
+                  Privacy Policy
+                </a>
+              </li>
+              <li>
+                <a href="/terms" className="text-slate-400 hover:text-white transition-colors font-light">
+                  Terms of Service
+                </a>
+              </li>
             </ul>
           </div>
 
@@ -59,8 +70,8 @@ export default function Footer() {
             <h4 className="text-sm font-medium text-slate-300 mb-4">Contact</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <a href="tel:+61497469408" className="text-slate-400 hover:text-white transition-colors font-light">
-                  0497 469 408
+                <a href={siteConfig.contactPhoneHref} className="text-slate-400 hover:text-white transition-colors font-light">
+                  {siteConfig.contactPhoneDisplay}
                 </a>
               </li>
               <li>

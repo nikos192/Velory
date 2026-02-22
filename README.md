@@ -1,124 +1,56 @@
-# VELORY - Website
+# VELORY Website
 
-Modern, elegant, premium single-page website for VELORY - a local web design studio on the Gold Coast, Australia.
+Marketing site for VELORY, built with Next.js and Tailwind CSS.
 
-## About
+## Stack
 
-VELORY builds professional websites for local service businesses with fast turnaround and premium presentation.
+- Next.js 14 (App Router)
+- React 18
+- Tailwind CSS
+- Vercel Speed Insights
 
-## Technology Stack
-
-- **React** - UI library
-- **Tailwind CSS** - Utility-first CSS framework
-- **Vite** - Modern build tool and dev server
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js (v18 or higher)
-- npm or yarn
-
-### Installation
+## Run locally
 
 ```bash
-# Install dependencies
 npm install
-```
-
-### Development
-
-```bash
-# Start the development server
 npm run dev
 ```
 
-The site will open automatically at `http://localhost:3000`
+Site runs at `http://localhost:3000`.
 
-### Build for Production
+## Build
 
 ```bash
-# Build the project
 npm run build
-
-# Preview the production build
-npm run preview
+npm run start
 ```
 
-## Project Structure
+## Lead form delivery
 
-```
-src/
-├── components/
-│   ├── Header.jsx       # Navigation header
-│   ├── Hero.jsx         # Hero section with CTAs
-│   ├── HowItWorks.jsx   # 3-step process explanation
-│   ├── WhoItFor.jsx     # Target business types
-│   ├── Examples.jsx     # Example websites
-│   ├── Why.jsx          # Why choose VELORY
-│   ├── Contact.jsx      # Contact form and info
-│   └── Footer.jsx       # Footer with links
-├── App.jsx              # Main app component
-├── main.jsx             # Entry point
-└── index.css            # Global styles with Tailwind
-```
+The contact form submits to `POST /api/contact`.
 
-## Customization
+Configure one of these delivery options:
 
-The site is built to be easy for non-technical users to update:
+1. `CONTACT_WEBHOOK_URL`
+- Sends each lead payload to your webhook endpoint (Zapier, Make, n8n, etc.).
 
-### Updating Text Content
-Edit the text directly in the React components. All sections have clear, readable content.
+2. `RESEND_API_KEY` + `LEAD_TO_EMAIL`
+- Sends each lead as an email via Resend API.
+- Optional: `CONTACT_FROM_EMAIL` (defaults to `onboarding@resend.dev`).
 
-### Changing Contact Information
-Update the phone number, address, and contact details in:
-- `src/components/Header.jsx`
-- `src/components/Contact.jsx`
-- `src/components/Footer.jsx`
+## Optional public config
 
-### Updating Images
-Replace the image URLs in:
-- `src/components/Hero.jsx` - Main hero image
-- `src/components/Examples.jsx` - Example website images
+- `NEXT_PUBLIC_CONTACT_EMAIL` (defaults to `velorysystems@outlook.com`)
 
-### Adjusting Colors
-The site uses a black/white/neutral palette through Tailwind:
-- Black text and accents: `text-black`, `bg-black`
-- Gray backgrounds: `bg-gray-50`, `bg-gray-100`
-- Update in `tailwind.config.js` if needed
+## Routes
 
-## Responsive Design
+- `/` Home
+- `/privacy-policy`
+- `/terms`
+- `/robots.txt`
+- `/sitemap.xml`
 
-The website is fully mobile-responsive with:
-- Mobile-first approach
-- Tested on all device sizes
-- Touch-friendly buttons and forms
-- Optimized typography for all screens
+## Notes
 
-## Performance
-
-- Fast page loads with Vite
-- Optimized images
-- Minimal dependencies
-- Clean, scalable code
-
-## Deployment
-
-The built site is production-ready. Deploy the `dist/` folder to any static hosting service:
-- Vercel
-- Netlify
-- GitHub Pages
-- AWS S3
-- Traditional web server
-
-## License
-
-© 2026 VELORY. All rights reserved.
-
-## Support
-
-For questions about updating or customizing the site, contact us directly.
-
----
-
-Built with care for local Gold Coast businesses.
+- Facebook Pixel is loaded in `app/layout.jsx`.
+- JSON-LD schema is injected from `src/components/StructuredData.jsx`.
