@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Section from './Section'
 import GlassCard from './GlassCard'
 import AnimatedInView from './AnimatedInView'
-import { trackPixelEvent } from '../lib/facebookPixel'
+import { trackAnalyticsEvent, trackPixelEvent } from '../lib/facebookPixel'
 import { siteConfig } from '../lib/siteConfig'
 import { ESTIMATOR_STORAGE_KEY, formatAud } from '../lib/estimateCalculator'
 import { captureUtmParams } from '../lib/utmCapture'
@@ -13,11 +13,13 @@ export default function Contact({ estimatorPrefill }) {
     name: '',
     businessName: '',
     phone: '',
+    preferredLaunchWindow: '',
     message: '',
     website: '',
   })
   const [utmParams, setUtmParams] = useState(null)
   const [estimatorData, setEstimatorData] = useState(null)
+  const [submittedWithEstimate, setSubmittedWithEstimate] = useState(false)
   const [status, setStatus] = useState('idle')
   const [statusMessage, setStatusMessage] = useState('')
 
@@ -77,6 +79,7 @@ export default function Contact({ estimatorPrefill }) {
 
     setStatus('submitting')
     setStatusMessage('')
+    setSubmittedWithEstimate(false)
 
     try {
       const response = await fetch('/api/contact', {
@@ -91,6 +94,7 @@ export default function Contact({ estimatorPrefill }) {
           estimator_total: estimatorData?.estimator_total || null,
           selected_addons: estimatorData?.selected_addons || [],
           monthly_care_plan: estimatorData?.monthly_care_plan || null,
+          preferred_launch_window: formData.preferredLaunchWindow || null,
           utm_source: utmParams?.source || null,
           utm_medium: utmParams?.medium || null,
           utm_campaign: utmParams?.campaign || null,
@@ -107,10 +111,31 @@ export default function Contact({ estimatorPrefill }) {
 
       trackPixelEvent('Lead')
       trackPixelEvent('Purchase')
+      trackAnalyticsEvent(
+        'lead_submitted_success',
+        {
+          has_estimator: Boolean(estimatorData),
+          estimator_total: estimatorData?.estimator_total || null,
+          selected_addon_count: estimatorData?.selected_addons?.length || 0,
+          preferred_launch_window: formData.preferredLaunchWindow || null,
+          utm_source: utmParams?.source || null,
+          utm_medium: utmParams?.medium || null,
+          utm_campaign: utmParams?.campaign || null,
+        },
+        { pixelEventName: 'LeadSubmittedSuccess' }
+      )
       setStatus('success')
       setStatusMessage("Thanks, your message has been sent. We'll reply shortly.")
+      setSubmittedWithEstimate(Boolean(estimatorData))
       setEstimatorData(null)
-      setFormData({ name: '', businessName: '', phone: '', message: '', website: '' })
+      setFormData({
+        name: '',
+        businessName: '',
+        phone: '',
+        preferredLaunchWindow: '',
+        message: '',
+        website: '',
+      })
     } catch (error) {
       setStatus('error')
       setStatusMessage(
@@ -196,6 +221,25 @@ export default function Contact({ estimatorPrefill }) {
               </div>
 
               <div>
+                <label htmlFor="preferredLaunchWindow" className="block text-sm font-medium text-slate-200 mb-2">
+                  Preferred launch window
+                </label>
+                <select
+                  id="preferredLaunchWindow"
+                  name="preferredLaunchWindow"
+                  value={formData.preferredLaunchWindow}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 rounded-lg bg-slate-900/60 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-marina-400 focus:border-transparent"
+                >
+                  <option value="">Select timeframe (optional)</option>
+                  <option value="asap">ASAP (rush)</option>
+                  <option value="2-4_weeks">2-4 weeks</option>
+                  <option value="1-2_months">1-2 months</option>
+                  <option value="just_researching">Just researching</option>
+                </select>
+              </div>
+
+              <div>
                 <label htmlFor="message" className="block text-sm font-medium text-slate-200 mb-2">
                   Tell us a bit about your business
                 </label>
@@ -230,9 +274,15 @@ export default function Contact({ estimatorPrefill }) {
               </button>
 
               {status === 'success' && (
-                <p className="text-emerald-400 text-sm text-center font-light">
-                  {statusMessage}
-                </p>
+                <div className="rounded-xl border border-emerald-300/30 bg-emerald-400/10 p-4 text-center">
+                  <p className="text-emerald-200 text-sm font-medium">{statusMessage}</p>
+                  <p className="text-emerald-100/90 text-xs mt-2">Expected response time: within 24 hours.</p>
+                  {submittedWithEstimate && (
+                    <p className="text-emerald-100/90 text-xs mt-1">
+                      Your estimator selections were included in this enquiry.
+                    </p>
+                  )}
+                </div>
               )}
 
               {status === 'error' && <p className="text-rose-300 text-sm text-center font-light">{statusMessage}</p>}

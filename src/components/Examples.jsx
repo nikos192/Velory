@@ -2,6 +2,7 @@ import React from 'react'
 import Section from './Section'
 import GlassCard from './GlassCard'
 import AnimatedInView from './AnimatedInView'
+import { trackAnalyticsEvent } from '../lib/facebookPixel'
 
 export default function Examples() {
   const examples = [
@@ -9,21 +10,21 @@ export default function Examples() {
       name: "Morgan's Mobile Mechanic",
       description: "Bold landing, clear services, and frictionless contact flow.",
       tag: 'Mechanic',
-      gradient: 'from-cyan-500/30 via-sky-500/20 to-blue-500/30',
+      image: '/portfolio-morgans.png',
       link: 'https://morgans-teal.vercel.app/'
     },
     {
       name: 'North GC Landscape',
       description: 'Project highlights, services, and trust signals that convert.',
       tag: 'Trades',
-      gradient: 'from-emerald-500/30 via-green-500/20 to-lime-400/30',
+      image: '/portfolio-north-gc.png',
       link: 'https://north-gc-landscape-sups-2vij.vercel.app/'
     },
     {
       name: "Sel's Auto",
       description: "Clean service pages, gallery, and premium positioning.",
       tag: 'Detailing',
-      gradient: 'from-amber-400/30 via-orange-500/20 to-rose-500/30',
+      image: '/portfolio-sels.png',
       link: 'https://selsauto.vercel.app/'
     }
   ]
@@ -49,9 +50,23 @@ export default function Examples() {
               target="_blank"
               rel="noopener noreferrer"
               className="group"
+              onClick={() => {
+                trackAnalyticsEvent(
+                  'portfolio_example_click',
+                  { project_name: example.name, destination: example.link },
+                  { pixelEventName: 'PortfolioExampleClick' }
+                )
+              }}
             >
               <GlassCard className="rounded-2xl overflow-hidden h-full card-hover border border-white/10 group-hover:border-white/25 transition-colors">
-                <div className={`relative h-48 w-full overflow-hidden bg-gradient-to-br ${example.gradient}`}>
+                <div className="relative h-48 w-full overflow-hidden bg-slate-900">
+                  <img
+                    src={example.image}
+                    alt={`${example.name} website preview`}
+                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+                    loading="lazy"
+                    decoding="async"
+                  />
                   <div className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 bg-white/5" aria-hidden="true" />
                   <div className="absolute inset-0 scale-105 opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:scale-100 bg-gradient-to-tr from-white/5 via-transparent to-white/10" aria-hidden="true" />
                 </div>

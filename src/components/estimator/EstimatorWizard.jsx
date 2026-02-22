@@ -3,6 +3,7 @@
 import React, { useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import GlassCard from '../GlassCard'
+import { trackAnalyticsEvent } from '../../lib/facebookPixel'
 import {
   buildEstimatorLeadPayload,
   calculateEstimate,
@@ -16,6 +17,7 @@ export default function EstimatorWizard() {
   const router = useRouter()
   const [step, setStep] = useState(1)
   const [selection, setSelection] = useState(defaultEstimateSelection)
+  const [estimateSaved, setEstimateSaved] = useState(false)
 
   const estimate = useMemo(() => calculateEstimate(selection), [selection])
 
@@ -27,12 +29,35 @@ export default function EstimatorWizard() {
   }
 
   const goBack = () => setStep((prev) => Math.max(1, prev - 1))
-  const goNext = () => setStep((prev) => Math.min(ESTIMATOR_TOTAL_STEPS, prev + 1))
+  const goNext = () => {
+    const nextStep = Math.min(ESTIMATOR_TOTAL_STEPS, step + 1)
+    trackAnalyticsEvent('estimator_step_next', {
+      current_step: step,
+      next_step: nextStep,
+    }, { pixelEventName: 'EstimatorStepNext' })
+    setStep(nextStep)
+  }
 
   const handleSendEstimate = () => {
     const payload = buildEstimatorLeadPayload(estimate)
     window.localStorage.setItem(ESTIMATOR_STORAGE_KEY, JSON.stringify(payload))
-    router.push('/#contact')
+    trackAnalyticsEvent(
+      'estimator_saved',
+      {
+        one_time_total: estimate.oneTimeTotal,
+        monthly_care_plan: estimate.monthlyCarePlan || 0,
+        selected_addon_count: estimate.selectedAddons.length,
+      },
+      { pixelEventName: 'EstimatorSaved' }
+    )
+    setEstimateSaved(true)
+  }
+
+  const handleContinueToContact = () => {
+    trackAnalyticsEvent('estimator_continue_to_contact', {
+      one_time_total: estimate.oneTimeTotal,
+    }, { pixelEventName: 'EstimatorContinueToContact' })
+    router.push('/?from_estimator=1#contact')
   }
 
   const renderStep = () => {
@@ -297,30 +322,54 @@ export default function EstimatorWizard() {
 
         <div className="grid lg:grid-cols-[1.45fr_1fr] gap-8 items-start">
           <GlassCard className="rounded-3xl p-6 md:p-8">
-            <p className="text-sm text-slate-300 mb-6">Step {step} of {ESTIMATOR_TOTAL_STEPS}</p>
+            {!estimateSaved ? (
+              <>
+                <p className="text-sm text-slate-300 mb-6">Step {step} of {ESTIMATOR_TOTAL_STEPS}</p>
 
-            {renderStep()}
+                {renderStep()}
 
-            <div className="mt-8 flex flex-wrap gap-3 justify-between">
-              <button
-                type="button"
-                onClick={goBack}
-                disabled={step === 1}
-                className="btn-secondary disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                Back
-              </button>
+                <div className="mt-8 flex flex-wrap gap-3 justify-between">
+                  <button
+                    type="button"
+                    onClick={goBack}
+                    disabled={step === 1}
+                    className="btn-secondary disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    Back
+                  </button>
 
-              {step < ESTIMATOR_TOTAL_STEPS ? (
-                <button type="button" onClick={goNext} className="btn-primary">
-                  Next
+                  {step < ESTIMATOR_TOTAL_STEPS ? (
+                    <button type="button" onClick={goNext} className="btn-primary">
+                      Next
+                    </button>
+                  ) : (
+                    <button type="button" onClick={handleSendEstimate} className="btn-primary">
+                      Save Estimate
+                    </button>
+                  )}
+                </div>
+              </>
+            ) : (
+              <div className="space-y-6">
+                <p className="text-sm uppercase tracking-[0.2em] text-emerald-300">Estimate saved</p>
+                <h2 className="text-2xl md:text-3xl font-semibold text-white">Your estimate is ready to send</h2>
+                <p className="text-slate-300 leading-relaxed">
+                  We have attached your estimate. Continue to the contact form to send your details and we will reply within 24 hours.
+                </p>
+                <div className="rounded-xl border border-emerald-300/30 bg-emerald-400/10 p-4">
+                  <p className="text-emerald-100 font-medium">Estimated one-time total: {formatAud(estimate.oneTimeTotal)}</p>
+                  <p className="text-sm text-emerald-200/90 mt-1">
+                    {estimate.monthlyCarePlan > 0
+                      ? `Monthly care plan selected: ${formatAud(estimate.monthlyCarePlan)}/month`
+                      : 'No monthly care plan selected'}
+                  </p>
+                  <p className="text-xs text-emerald-200/90 mt-2">Expected response time: within 24 hours.</p>
+                </div>
+                <button type="button" onClick={handleContinueToContact} className="btn-primary">
+                  Continue To Contact
                 </button>
-              ) : (
-                <button type="button" onClick={handleSendEstimate} className="btn-primary">
-                  Send Estimate
-                </button>
-              )}
-            </div>
+              </div>
+            )}
           </GlassCard>
 
           <GlassCard className="rounded-3xl p-6 md:p-8 lg:sticky lg:top-28">

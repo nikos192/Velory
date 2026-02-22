@@ -20,6 +20,14 @@ function sanitizeUtmParam(value, maxLength = 100) {
   return value ? clamp(trimString(value), maxLength) : null
 }
 
+function sanitizeLaunchWindow(value) {
+  const normalized = trimString(value)
+  if (!normalized) return null
+
+  const allowed = new Set(['asap', '2-4_weeks', '1-2_months', 'just_researching'])
+  return allowed.has(normalized) ? normalized : null
+}
+
 function sanitizeEstimatorBreakdown(value) {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return null
 
@@ -80,6 +88,7 @@ async function sendLeadToResend(payload) {
     payload.estimator_total ? `Estimated total: ${payload.estimator_total} AUD` : null,
     payload.selected_addons?.length ? `Selected add-ons: ${payload.selected_addons.join(', ')}` : null,
     payload.monthly_care_plan ? `Monthly care plan: ${payload.monthly_care_plan} AUD/month` : null,
+    payload.preferred_launch_window ? `Preferred launch window: ${payload.preferred_launch_window}` : null,
     '',
     `Source URL: ${payload.sourceUrl || 'unknown'}`,
     `Submitted at: ${payload.submittedAt}`,
@@ -128,6 +137,7 @@ export async function POST(request) {
     const utmCampaign = sanitizeUtmParam(body?.utm_campaign)
     const utmContent = sanitizeUtmParam(body?.utm_content)
     const utmTerm = sanitizeUtmParam(body?.utm_term)
+    const preferredLaunchWindow = sanitizeLaunchWindow(body?.preferred_launch_window)
 
     // Honeypot field: silently succeed for bots.
     if (website) {
@@ -154,6 +164,7 @@ export async function POST(request) {
       selected_addons: selectedAddons,
       estimator_breakdown: estimatorBreakdown,
       monthly_care_plan: monthlyCarePlan,
+      preferred_launch_window: preferredLaunchWindow,
       utm_source: utmSource,
       utm_medium: utmMedium,
       utm_campaign: utmCampaign,
