@@ -33,7 +33,7 @@ export default function About() {
               </div>
               <div className="flex items-start gap-4">
                 <span className="text-marina-300">●</span>
-                <p>Rapid turnaround with most sites launching in 48 hours.</p>
+                <p>Clear launch timelines with practical milestones and review points.</p>
               </div>
             </div>
           </div>

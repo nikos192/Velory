@@ -6,7 +6,7 @@ import AnimatedInView from './AnimatedInView'
 const logos = ['Plumbing', 'Auto Services', 'Hair & Beauty', 'Landscaping', 'Mobile Trades']
 
 const proofHighlights = [
-  { label: 'Typical launch window', value: '48 hrs' },
+  { label: 'Typical launch window', value: '1-2 weeks' },
   { label: 'Mobile-first builds', value: '100%' },
   { label: 'Local niche focus', value: 'Service businesses' },
 ]

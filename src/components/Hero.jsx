@@ -2,6 +2,7 @@ import React from 'react'
 import AnimatedInView from './AnimatedInView'
 import GlowBackground from './GlowBackground'
 import { trackPixelEvent } from '../lib/facebookPixel'
+import { siteConfig } from '../lib/siteConfig'
 
 export default function Hero({ onScrollToSection }) {
   return (
@@ -22,27 +23,29 @@ export default function Hero({ onScrollToSection }) {
               We design fast, modern websites that make your business look established and attract more customers.
             </p>
 
+            <p className="text-sm text-marina-200/90 mb-4">
+              Limited build slots this week. Most enquiries get a response in under 24 hours.
+            </p>
+
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-start sm:items-center">
               <a
-                href="#contact"
+                href="/estimator"
                 onClick={(event) => {
-                  trackPixelEvent('Contact')
-                  event.preventDefault()
-                  onScrollToSection('contact')
+                  trackPixelEvent('ViewContent')
                 }}
                 className="btn-primary"
               >
-                Get Started
+                Get My Estimate
               </a>
 
               <a
-                href="#work"
+                href={siteConfig.bookingHref}
                 onClick={() => {
-                  trackPixelEvent('ViewContent')
+                  trackPixelEvent('Contact')
                 }}
                 className="btn-secondary"
               >
-                View Examples
+                Book 15-min Call
               </a>
             </div>
 

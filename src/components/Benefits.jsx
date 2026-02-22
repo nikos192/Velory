@@ -10,7 +10,7 @@ const benefits = [
   },
   {
     title: 'Fast turnaround',
-    description: 'Most websites go live in 48 hours without cutting corners.'
+    description: 'Efficient delivery timelines with clear milestones and quality checks.'
   },
   {
     title: 'Designed for enquiries',

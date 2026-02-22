@@ -53,6 +53,11 @@ export default function Footer() {
                 </a>
               </li>
               <li>
+                <a href="/estimator" className="text-slate-400 hover:text-white transition-colors font-light">
+                  Get My Estimate
+                </a>
+              </li>
+              <li>
                 <a href="/privacy-policy" className="text-slate-400 hover:text-white transition-colors font-light">
                   Privacy Policy
                 </a>
@@ -72,6 +77,11 @@ export default function Footer() {
               <li>
                 <a href={siteConfig.contactPhoneHref} className="text-slate-400 hover:text-white transition-colors font-light">
                   {siteConfig.contactPhoneDisplay}
+                </a>
+              </li>
+              <li>
+                <a href={siteConfig.bookingHref} className="text-slate-400 hover:text-white transition-colors font-light">
+                  Book 15-min call
                 </a>
               </li>
               <li>

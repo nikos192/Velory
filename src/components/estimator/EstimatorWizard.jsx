@@ -243,7 +243,7 @@ export default function EstimatorWizard() {
                   className="mt-1 h-4 w-4 border-white/20 bg-slate-900/60 text-marina-400 focus:ring-marina-400"
                 />
                 <div>
-                  <p className="text-white font-medium">Rush delivery (under 5 days)</p>
+                  <p className="text-white font-medium">Rush delivery (priority schedule)</p>
                   <p className="text-sm text-slate-300 mt-1">{ESTIMATOR_CONTENT.rushDelivery.description}</p>
                   <p className="text-sky-300 mt-2 font-medium">
                     +{Math.round(PRICING_CONFIG.rushDeliveryPercent * 100)}% ({formatAud(Math.round(estimate.subtotalBeforeRush * PRICING_CONFIG.rushDeliveryPercent))} based on current subtotal)

@@ -59,7 +59,7 @@ export const ESTIMATOR_CONTENT = {
   rushDelivery: {
     title: 'Rush delivery',
     description:
-      'Prioritizes your project for delivery under 5 days. Rush pricing applies as a percentage surcharge.',
+      'Prioritizes your project schedule for a faster delivery target. Rush pricing applies as a percentage surcharge.',
   },
   monthlyCare: {
     title: 'Ongoing monthly care plan',

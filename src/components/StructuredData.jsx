@@ -108,7 +108,7 @@ export default function StructuredData() {
       "offers": {
         "@type": "Offer",
         "availability": "https://schema.org/InStock",
-        "description": "Professional website design with fast turnaround (1-2 days typical)"
+        "description": "Professional website design with clear timelines tailored to project scope."
       }
     }
 

@@ -9,6 +9,7 @@ import Faq from './components/Faq'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 import StructuredData from './components/StructuredData'
+import StickyMobileCta from './components/StickyMobileCta'
 
 function App() {
   const scrollToSection = (sectionId) => {
@@ -19,7 +20,7 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-slate-950 pb-24 md:pb-0">
       <StructuredData />
       <Header onScrollToSection={scrollToSection} />
       <Hero onScrollToSection={scrollToSection} />
@@ -30,6 +31,7 @@ function App() {
       <Faq />
       <Contact />
       <Footer />
+      <StickyMobileCta />
     </div>
   )
 }

@@ -19,7 +19,7 @@ export default function WhatWeDo() {
             <li>Mobile-first, fast loading, and easy to contact you.</li>
             <li>Set up contact forms and lead capture.</li>
             <li>Handle domain and hosting setup if needed.</li>
-            <li>Most websites go live in as little as 1-2 days.</li>
+            <li>Delivery timelines tailored to scope, content, and approvals.</li>
           </ul>
         </div>
       </div>

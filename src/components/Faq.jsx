@@ -27,7 +27,7 @@ export default function Faq() {
           <div>
             <dt className="text-white font-medium">How fast can you launch?</dt>
             <dd className="mt-2 text-slate-300 font-light">
-              Most websites go live in 1-2 days, depending on content and approvals.
+              Typical projects launch in 1-2 weeks, depending on scope, content readiness, and approvals.
             </dd>
           </div>
 

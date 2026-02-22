@@ -49,14 +49,17 @@ export default function Header({ onScrollToSection }) {
         </nav>
 
         <a
-          href="/#contact"
+          href="/estimator"
           onClick={(event) => {
-            trackPixelEvent('Contact')
-            handleNavClick('contact')(event)
+            trackPixelEvent('ViewContent')
+            if (pathname === '/') {
+              event.preventDefault()
+              window.location.href = '/estimator'
+            }
           }}
-          className="text-sm px-5 py-2 rounded-full border border-white/20 text-white hover:border-white/40 transition-colors"
+          className="text-sm px-5 py-2 rounded-full bg-gradient-to-r from-marina-400 to-sky-400 text-slate-950 font-semibold shadow-[0_10px_24px_rgba(56,189,248,0.35)] hover:opacity-90 transition-opacity"
         >
-          Get in touch
+          Get My Estimate
         </a>
       </div>
     </header>

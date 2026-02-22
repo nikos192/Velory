@@ -153,6 +153,9 @@ export default function Contact({ estimatorPrefill }) {
           <p className="body-lg">
             Fast turnaround, premium design, and a website that gets you more enquiries.
           </p>
+          <p className="text-sm text-marina-200/90 mt-3">
+            Quick quote flow: submit in under 60 seconds. We reply within 24 hours.
+          </p>
         </div>
       </AnimatedInView>
 
@@ -170,6 +173,20 @@ export default function Contact({ estimatorPrefill }) {
                 </p>
               </div>
             )}
+
+            <div className="mb-6 p-4 rounded-xl border border-white/10 bg-white/5">
+              <p className="text-sm text-slate-200">
+                Prefer to talk first?{' '}
+                <a
+                  href={siteConfig.bookingHref}
+                  onClick={() => trackPixelEvent('Contact')}
+                  className="text-marina-300 hover:text-marina-200 font-medium"
+                >
+                  Book a 15-min call
+                </a>
+                .
+              </p>
+            </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
@@ -198,9 +215,8 @@ export default function Contact({ estimatorPrefill }) {
                   name="businessName"
                   value={formData.businessName}
                   onChange={handleChange}
-                  required
                   className="w-full px-4 py-3 rounded-lg bg-slate-900/60 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-marina-400 focus:border-transparent"
-                  placeholder="Your Auto Repair"
+                  placeholder="Your Business"
                 />
               </div>
 
@@ -241,7 +257,7 @@ export default function Contact({ estimatorPrefill }) {
 
               <div>
                 <label htmlFor="message" className="block text-sm font-medium text-slate-200 mb-2">
-                  Tell us a bit about your business
+                  Tell us a bit about your business (optional)
                 </label>
                 <textarea
                   id="message"

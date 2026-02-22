@@ -14,8 +14,8 @@ export default function HowItWorks() {
       description: 'Premium, conversion-focused design with a modern layout and clear messaging.',
     },
     {
-      title: 'Your website goes live in 48 hours',
-      description: 'We launch quickly, test everything, and make sure it looks perfect on mobile.',
+      title: 'Your website launches on a clear timeline',
+      description: 'We launch efficiently, test everything, and make sure it looks perfect on mobile.',
     },
   ]
 
