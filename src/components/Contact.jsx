@@ -5,7 +5,7 @@ import AnimatedInView from './AnimatedInView'
 import { trackPixelEvent } from '../lib/facebookPixel'
 
 export default function Contact() {
-  const smsNumber = '+61497469408'
+  const emailAddress = 'velorysystems@outlook.com'
   const [formData, setFormData] = useState({
     name: '',
     businessName: '',
@@ -27,20 +27,21 @@ export default function Contact() {
     e.preventDefault()
     trackPixelEvent('Lead')
 
-    const messageLines = [
-      `Name: ${formData.name}`,
-      `Business: ${formData.businessName}`,
-      `Phone: ${formData.phone}`,
-      formData.message ? `Message: ${formData.message}` : 'Message: (none)',
-    ]
+    const emailBody = encodeURIComponent(
+      `Name: ${formData.name}\n` +
+      `Business: ${formData.businessName}\n` +
+      `Phone: ${formData.phone}\n` +
+      `Message: ${formData.message || '(none)'}`
+    )
 
-    const smsBody = encodeURIComponent(messageLines.join('\n'))
-    window.location.href = `sms:${smsNumber}?&body=${smsBody}`
+    const mailtoLink = `mailto:${emailAddress}?subject=Website Enquiry from ${encodeURIComponent(formData.name)}&body=${emailBody}`
+    window.location.href = mailtoLink
+
     setSubmitted(true)
     setTimeout(() => {
       setFormData({ name: '', businessName: '', phone: '', message: '' })
       setSubmitted(false)
-    }, 3000)
+    }, 2000)
   }
 
   return (
@@ -128,12 +129,12 @@ export default function Contact() {
                 type="submit"
                 className="w-full px-6 py-3 rounded-lg bg-gradient-to-r from-marina-400 to-sky-400 text-slate-950 font-semibold shadow-[0_14px_30px_rgba(56,189,248,0.35)] transition-transform duration-200 hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
               >
-                {submitted ? 'Thanks! We\'ll be in touch.' : 'Send Message'}
+                {submitted ? 'Opening email...' : 'Send Message'}
               </button>
 
               {submitted && (
                 <p className="text-emerald-400 text-sm text-center font-light">
-                  ✓ Your message has been sent. We'll get back to you soon.
+                  ✓ Opening your email client. Send the message to get in touch.
                 </p>
               )}
             </form>
@@ -156,6 +157,22 @@ export default function Contact() {
                 </a>
                 <p className="text-sm text-slate-400 mt-2 font-light">
                   Call or text us. We respond quickly during business hours.
+                </p>
+              </div>
+
+              <div>
+                <h4 className="text-sm font-medium text-slate-200 mb-2">Email</h4>
+                <a
+                  href="mailto:velorysystems@outlook.com"
+                  onClick={() => {
+                    trackPixelEvent('Contact')
+                  }}
+                  className="text-lg text-white hover:text-marina-300 transition-colors font-medium"
+                >
+                  velorysystems@outlook.com
+                </a>
+                <p className="text-sm text-slate-400 mt-2 font-light">
+                  Send us an email anytime. We'll respond within 24 hours.
                 </p>
               </div>
 
