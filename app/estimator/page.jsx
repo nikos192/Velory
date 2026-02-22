@@ -1,15 +1,14 @@
-'use client'
+import EstimatorPageClient from '../../src/components/estimator/EstimatorPageClient'
 
-import Header from '../../src/components/Header'
-import Footer from '../../src/components/Footer'
-import EstimatorWizard from '../../src/components/estimator/EstimatorWizard'
+export const metadata = {
+  title: 'Website Price Estimator | VELORY',
+  description:
+    'Build a tailored website estimate in minutes. Choose pages, features, and delivery speed to get your projected investment.',
+  alternates: {
+    canonical: '/estimator',
+  },
+}
 
 export default function EstimatorPage() {
-  return (
-    <div className="min-h-screen bg-slate-950">
-      <Header />
-      <EstimatorWizard />
-      <Footer />
-    </div>
-  )
+  return <EstimatorPageClient />
 }

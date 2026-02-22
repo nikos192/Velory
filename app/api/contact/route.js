@@ -20,6 +20,35 @@ function sanitizeUtmParam(value, maxLength = 100) {
   return value ? clamp(trimString(value), maxLength) : null
 }
 
+function sanitizeEstimatorBreakdown(value) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return null
+
+  const safe = {}
+  const entries = Object.entries(value).slice(0, 40)
+
+  for (const [key, raw] of entries) {
+    const cleanedKey = clamp(trimString(key), 80)
+    if (!cleanedKey) continue
+
+    if (typeof raw === 'number' && Number.isFinite(raw)) {
+      safe[cleanedKey] = Math.round(raw)
+      continue
+    }
+
+    if (typeof raw === 'string') {
+      safe[cleanedKey] = clamp(trimString(raw), 200)
+      continue
+    }
+
+    if (typeof raw === 'boolean') {
+      safe[cleanedKey] = raw
+      continue
+    }
+  }
+
+  return Object.keys(safe).length ? safe : null
+}
+
 async function sendLeadToWebhook(payload) {
   const webhookUrl = process.env.CONTACT_WEBHOOK_URL
   if (!webhookUrl) return { sent: false }
@@ -32,9 +61,7 @@ async function sendLeadToWebhook(payload) {
     body: JSON.stringify(payload),
   })
 
-  if (!response.ok) {
-    throw new Error(`Webhook failed with status ${response.status}`)
-  }
+  if (!response.ok) throw new Error(`Webhook failed with status ${response.status}`)
 
   return { sent: true, provider: 'webhook' }
 }
@@ -73,9 +100,7 @@ async function sendLeadToResend(payload) {
     }),
   })
 
-  if (!response.ok) {
-    throw new Error(`Resend failed with status ${response.status}`)
-  }
+  if (!response.ok) throw new Error(`Resend failed with status ${response.status}`)
 
   return { sent: true, provider: 'resend' }
 }
@@ -136,23 +161,34 @@ export async function POST(request) {
       utm_term: utmTerm,
     }
 
-    const webhookResult = await sendLeadToWebhook(payload)
-    if (webhookResult.sent) {
-      return Response.json({ ok: true, provider: webhookResult.provider }, { status: 200 })
+    const deliveryErrors = []
+
+    try {
+      const webhookResult = await sendLeadToWebhook(payload)
+      if (webhookResult.sent) {
+        return Response.json({ ok: true, provider: webhookResult.provider }, { status: 200 })
+      }
+    } catch (error) {
+      deliveryErrors.push(error instanceof Error ? error.message : String(error))
     }
 
-    const resendResult = await sendLeadToResend(payload)
-    if (resendResult.sent) {
-      return Response.json({ ok: true, provider: resendResult.provider }, { status: 200 })
+    try {
+      const resendResult = await sendLeadToResend(payload)
+      if (resendResult.sent) {
+        return Response.json({ ok: true, provider: resendResult.provider }, { status: 200 })
+      }
+    } catch (error) {
+      deliveryErrors.push(error instanceof Error ? error.message : String(error))
     }
 
     return Response.json(
       {
         ok: false,
-        error:
-          'Lead destination is not configured. Set CONTACT_WEBHOOK_URL or RESEND_API_KEY + LEAD_TO_EMAIL.',
+        error: deliveryErrors.length
+          ? `Lead delivery failed: ${deliveryErrors.join(' | ')}`
+          : 'Lead destination is not configured. Set CONTACT_WEBHOOK_URL or RESEND_API_KEY + LEAD_TO_EMAIL.',
       },
-      { status: 503 }
+      { status: deliveryErrors.length ? 502 : 503 }
     )
   } catch (error) {
     console.error('Contact API error:', error)

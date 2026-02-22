@@ -3,6 +3,9 @@ import { siteConfig } from '../../src/lib/siteConfig'
 export const metadata = {
   title: 'Terms of Service | VELORY',
   description: 'Terms of Service for VELORY. Our service conditions, scope, and client responsibilities.',
+  alternates: {
+    canonical: '/terms',
+  },
 }
 
 export default function TermsPage() {

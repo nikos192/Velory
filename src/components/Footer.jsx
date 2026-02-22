@@ -28,27 +28,27 @@ export default function Footer() {
             <h4 className="text-sm font-medium text-slate-300 mb-4">Links</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <a href="#work" className="text-slate-400 hover:text-white transition-colors font-light">
+                <a href="/#work" className="text-slate-400 hover:text-white transition-colors font-light">
                   Work
                 </a>
               </li>
               <li>
-                <a href="#how-it-works" className="text-slate-400 hover:text-white transition-colors font-light">
+                <a href="/#how-it-works" className="text-slate-400 hover:text-white transition-colors font-light">
                   Process
                 </a>
               </li>
               <li>
-                <a href="#benefits" className="text-slate-400 hover:text-white transition-colors font-light">
+                <a href="/#benefits" className="text-slate-400 hover:text-white transition-colors font-light">
                   Benefits
                 </a>
               </li>
               <li>
-                <a href="#faq" className="text-slate-400 hover:text-white transition-colors font-light">
+                <a href="/#faq" className="text-slate-400 hover:text-white transition-colors font-light">
                   FAQ
                 </a>
               </li>
               <li>
-                <a href="#contact" className="text-slate-400 hover:text-white transition-colors font-light">
+                <a href="/#contact" className="text-slate-400 hover:text-white transition-colors font-light">
                   Contact us
                 </a>
               </li>

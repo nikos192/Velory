@@ -3,6 +3,9 @@ import { siteConfig } from '../../src/lib/siteConfig'
 export const metadata = {
   title: 'Privacy Policy | VELORY',
   description: 'Privacy Policy for VELORY. Learn how we collect, use, and protect your personal information.',
+  alternates: {
+    canonical: '/privacy-policy',
+  },
 }
 
 export default function PrivacyPolicyPage() {
