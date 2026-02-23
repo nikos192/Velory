@@ -46,6 +46,20 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <head>
         <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-17959240173"
+          strategy="afterInteractive"
+        />
+        <Script
+          id="google-ads-gtag"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'AW-17959240173');`,
+          }}
+        />
+        <Script
           id="facebook-pixel"
           strategy="afterInteractive"
           dangerouslySetInnerHTML={{
