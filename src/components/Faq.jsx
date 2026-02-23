@@ -4,7 +4,7 @@ import AnimatedInView from './AnimatedInView'
 
 export default function Faq() {
   return (
-    <Section id="faq">
+    <Section id="faq" className="section-surface-raise">
       <AnimatedInView>
         <div className="max-w-3xl">
           <p className="eyebrow">FAQ</p>

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -15,20 +15,26 @@
 
   h1 {
     @apply text-4xl md:text-6xl font-semibold tracking-tight text-white;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    letter-spacing: -0.01em;
   }
 
   h2 {
     @apply text-2xl md:text-4xl font-semibold tracking-tight text-white;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    letter-spacing: -0.01em;
   }
 
   h3 {
     @apply text-xl md:text-2xl font-semibold tracking-tight text-white;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    letter-spacing: -0.008em;
   }
 }
 
 @layer components {
   .section {
-    @apply py-14 md:py-20 bg-slate-950;
+    @apply py-14 md:py-20 bg-slate-950 relative overflow-hidden;
   }
 
   .section-inner {
@@ -96,6 +102,20 @@
 
   .hero-vignette {
     background: radial-gradient(circle at 20% 10%, rgba(12, 16, 24, 0.2), rgba(2, 6, 23, 0.9));
+  }
+
+  .section-surface-raise {
+    background-image:
+      radial-gradient(120% 80% at 50% -20%, rgba(222, 127, 63, 0.14), transparent 58%),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.02), rgba(2, 6, 23, 0));
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  }
+
+  .section-surface-ink {
+    background-image:
+      radial-gradient(140% 100% at 85% 12%, rgba(56, 189, 248, 0.12), transparent 62%),
+      linear-gradient(to bottom, rgba(15, 23, 42, 0.72), rgba(2, 6, 23, 0.9));
   }
 }
 

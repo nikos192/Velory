@@ -31,7 +31,7 @@ const testimonials = [
 
 export default function SocialProof() {
   return (
-    <Section id="social-proof">
+    <Section id="social-proof" className="section-surface-raise">
       <AnimatedInView>
         <div className="text-center max-w-3xl mx-auto">
           <p className="eyebrow">Built for local operators</p>

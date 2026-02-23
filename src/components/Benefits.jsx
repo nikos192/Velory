@@ -24,7 +24,7 @@ const benefits = [
 
 export default function Benefits() {
   return (
-    <Section id="benefits">
+    <Section id="benefits" className="section-surface-ink">
       <AnimatedInView>
         <div className="text-center max-w-3xl mx-auto">
           <p className="eyebrow">Benefits</p>

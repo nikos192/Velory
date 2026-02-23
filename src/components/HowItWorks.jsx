@@ -20,7 +20,7 @@ export default function HowItWorks() {
   ]
 
   return (
-    <Section id="how-it-works">
+    <Section id="how-it-works" className="section-surface-raise">
       <AnimatedInView>
         <div className="text-center max-w-3xl mx-auto">
           <p className="eyebrow">Process</p>

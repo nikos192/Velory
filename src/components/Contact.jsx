@@ -145,7 +145,7 @@ export default function Contact({ estimatorPrefill }) {
   }
 
   return (
-    <Section id="contact">
+    <Section id="contact" className="section-surface-ink">
       <AnimatedInView>
         <div className="text-center max-w-3xl mx-auto">
           <p className="eyebrow">Final step</p>

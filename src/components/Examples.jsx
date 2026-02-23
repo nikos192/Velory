@@ -30,7 +30,7 @@ export default function Examples() {
   ]
 
   return (
-    <Section id="work">
+    <Section id="work" className="section-surface-ink">
       <AnimatedInView>
         <div className="text-center max-w-3xl mx-auto">
           <p className="eyebrow">Portfolio</p>
