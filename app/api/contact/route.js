@@ -118,7 +118,8 @@ export async function POST(request) {
   try {
     const body = await request.json()
     const name = clamp(trimString(body?.name))
-    const businessName = clamp(trimString(body?.businessName))
+    const businessNameInput = clamp(trimString(body?.businessName))
+    const businessName = businessNameInput || 'Not provided'
     const phone = clamp(trimString(body?.phone))
     const message = clamp(trimString(body?.message))
     const website = trimString(body?.website)
@@ -144,9 +145,9 @@ export async function POST(request) {
       return Response.json({ ok: true }, { status: 200 })
     }
 
-    if (!name || !businessName || !phone) {
+    if (!name || !phone) {
       return Response.json(
-        { ok: false, error: 'Name, business name, and phone are required.' },
+        { ok: false, error: 'Name and phone are required.' },
         { status: 400 }
       )
     }
