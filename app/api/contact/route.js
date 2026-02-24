@@ -1,4 +1,14 @@
 const MAX_FIELD_LENGTH = 2000
+const ALLOWED_DELIVERY_SPEEDS = new Set(['standard', 'rush'])
+const ESTIMATOR_BOOLEAN_SELECTION_KEYS = [
+  'bookingIntegration',
+  'advancedContactForms',
+  'basicSeoSetup',
+  'copywritingAssistance',
+  'cmsBlogCapability',
+  'ecommerceStarter',
+  'ongoingMonthlyCarePlan',
+]
 
 function trimString(value) {
   return typeof value === 'string' ? value.trim() : ''
@@ -28,33 +38,116 @@ function sanitizeLaunchWindow(value) {
   return allowed.has(normalized) ? normalized : null
 }
 
+function sanitizeNonNegativeInteger(value) {
+  const numeric = Number(value)
+  if (!Number.isFinite(numeric)) return null
+  return Math.max(0, Math.round(numeric))
+}
+
+function sanitizeEstimatorSelection(value) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return null
+
+  const safe = {}
+  const extraPages = sanitizeNonNegativeInteger(value.extraPages)
+  if (extraPages !== null) safe.extraPages = extraPages
+
+  for (const key of ESTIMATOR_BOOLEAN_SELECTION_KEYS) {
+    if (typeof value[key] === 'boolean') safe[key] = value[key]
+  }
+
+  const deliverySpeed = trimString(value.deliverySpeed)
+  if (ALLOWED_DELIVERY_SPEEDS.has(deliverySpeed)) safe.deliverySpeed = deliverySpeed
+
+  return Object.keys(safe).length ? safe : null
+}
+
+function sanitizeEstimatorLineItems(value) {
+  if (!Array.isArray(value)) return []
+
+  return value
+    .slice(0, 20)
+    .map((item) => {
+      if (!item || typeof item !== 'object' || Array.isArray(item)) return null
+
+      const key = clamp(trimString(item.key), 80)
+      const label = clamp(trimString(item.label), 160)
+      const amount = sanitizeNonNegativeInteger(item.amount)
+      if (!key || !label || amount === null) return null
+
+      return { key, label, amount }
+    })
+    .filter(Boolean)
+}
+
 function sanitizeEstimatorBreakdown(value) {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return null
 
   const safe = {}
-  const entries = Object.entries(value).slice(0, 40)
 
-  for (const [key, raw] of entries) {
-    const cleanedKey = clamp(trimString(key), 80)
-    if (!cleanedKey) continue
+  const selection = sanitizeEstimatorSelection(value.selection)
+  if (selection) safe.selection = selection
 
-    if (typeof raw === 'number' && Number.isFinite(raw)) {
-      safe[cleanedKey] = Math.round(raw)
-      continue
-    }
+  const oneTimeLineItems = sanitizeEstimatorLineItems(value.oneTimeLineItems)
+  if (oneTimeLineItems.length) safe.oneTimeLineItems = oneTimeLineItems
 
-    if (typeof raw === 'string') {
-      safe[cleanedKey] = clamp(trimString(raw), 200)
-      continue
-    }
+  const subtotalBeforeRush = sanitizeNonNegativeInteger(value.subtotalBeforeRush)
+  if (subtotalBeforeRush !== null) safe.subtotalBeforeRush = subtotalBeforeRush
 
-    if (typeof raw === 'boolean') {
-      safe[cleanedKey] = raw
-      continue
-    }
-  }
+  const rushSurcharge = sanitizeNonNegativeInteger(value.rushSurcharge)
+  if (rushSurcharge !== null) safe.rushSurcharge = rushSurcharge
+
+  const oneTimeTotal = sanitizeNonNegativeInteger(value.oneTimeTotal)
+  if (oneTimeTotal !== null) safe.oneTimeTotal = oneTimeTotal
+
+  const monthlyCarePlan = sanitizeNonNegativeInteger(value.monthlyCarePlan)
+  if (monthlyCarePlan !== null) safe.monthlyCarePlan = monthlyCarePlan
 
   return Object.keys(safe).length ? safe : null
+}
+
+function buildEstimatorSnapshot({ estimatorBreakdown, estimatorTotal, monthlyCarePlan, selectedAddons }) {
+  const selection = estimatorBreakdown?.selection || {}
+  const lineItems = Array.isArray(estimatorBreakdown?.oneTimeLineItems)
+    ? estimatorBreakdown.oneTimeLineItems
+    : []
+
+  const lineItemByKey = new Map(lineItems.map((item) => [item.key, item]))
+  const basePackage = lineItemByKey.get('basePackage')
+  const extraPages = lineItemByKey.get('extraPages')
+  const rushDelivery = lineItemByKey.get('rushDelivery')
+
+  const monthlyPlanCost =
+    monthlyCarePlan ?? sanitizeNonNegativeInteger(estimatorBreakdown?.monthlyCarePlan) ?? null
+  const totalFromBreakdown = sanitizeNonNegativeInteger(estimatorBreakdown?.oneTimeTotal)
+
+  return {
+    currency: 'AUD',
+    base_package_cost: sanitizeNonNegativeInteger(basePackage?.amount),
+    extra_pages_count: sanitizeNonNegativeInteger(selection.extraPages),
+    extra_pages_cost: sanitizeNonNegativeInteger(extraPages?.amount),
+    booking_integration: typeof selection.bookingIntegration === 'boolean' ? selection.bookingIntegration : null,
+    advanced_contact_forms:
+      typeof selection.advancedContactForms === 'boolean' ? selection.advancedContactForms : null,
+    basic_seo_setup: typeof selection.basicSeoSetup === 'boolean' ? selection.basicSeoSetup : null,
+    copywriting_assistance:
+      typeof selection.copywritingAssistance === 'boolean' ? selection.copywritingAssistance : null,
+    cms_blog_capability:
+      typeof selection.cmsBlogCapability === 'boolean' ? selection.cmsBlogCapability : null,
+    ecommerce_starter: typeof selection.ecommerceStarter === 'boolean' ? selection.ecommerceStarter : null,
+    delivery_speed: ALLOWED_DELIVERY_SPEEDS.has(selection.deliverySpeed) ? selection.deliverySpeed : null,
+    rush_surcharge:
+      sanitizeNonNegativeInteger(estimatorBreakdown?.rushSurcharge) ??
+      sanitizeNonNegativeInteger(rushDelivery?.amount),
+    subtotal: sanitizeNonNegativeInteger(estimatorBreakdown?.subtotalBeforeRush),
+    total: estimatorTotal ?? totalFromBreakdown ?? null,
+    monthly_care_plan_selected:
+      typeof selection.ongoingMonthlyCarePlan === 'boolean'
+        ? selection.ongoingMonthlyCarePlan
+        : monthlyPlanCost !== null,
+    monthly_care_plan_cost: monthlyPlanCost,
+    selected_option_count: selectedAddons.length,
+    line_items: lineItems.length ? lineItems : null,
+  }
 }
 
 async function sendLeadToWebhook(payload) {
@@ -132,6 +225,12 @@ export async function POST(request) {
       : null
     const selectedAddons = sanitizeStringArray(body?.selected_addons)
     const estimatorBreakdown = sanitizeEstimatorBreakdown(body?.estimator_breakdown)
+    const estimatorSnapshot = buildEstimatorSnapshot({
+      estimatorBreakdown,
+      estimatorTotal,
+      monthlyCarePlan,
+      selectedAddons,
+    })
 
     const utmSource = sanitizeUtmParam(body?.utm_source)
     const utmMedium = sanitizeUtmParam(body?.utm_medium)
@@ -164,6 +263,7 @@ export async function POST(request) {
       estimator_total: estimatorTotal,
       selected_addons: selectedAddons,
       estimator_breakdown: estimatorBreakdown,
+      estimator_snapshot: estimatorSnapshot,
       monthly_care_plan: monthlyCarePlan,
       preferred_launch_window: preferredLaunchWindow,
       utm_source: utmSource,
