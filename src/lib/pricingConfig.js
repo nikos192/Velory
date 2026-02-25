@@ -1,14 +1,14 @@
 export const PRICING_CONFIG = {
-  basePackage: 699,
+  basePackage: 599,
   extraPage: 120,
-  bookingIntegration: 180,
-  advancedContactForms: 220,
-  basicSeoSetup: 150,
-  copywritingAssistance: 400,
-  cmsBlogCapability: 300,
-  ecommerceStarter: 900,
-  rushDeliveryPercent: 0.3,
-  ongoingMonthlyCarePlan: 79,
+  bookingIntegration: 120,
+  advancedContactForms: 160,
+  // basicSeoSetup: 0, // Already included
+  // copywritingAssistance: 0, // Already included
+  cmsBlogCapability: 220,
+  ecommerceStarter: 320,
+  rushDeliveryPercent: 0.2,
+  ongoingMonthlyCarePlan: 59,
 }
 
 export const ESTIMATOR_TOTAL_STEPS = 8
@@ -36,16 +36,16 @@ export const ESTIMATOR_CONTENT = {
     description:
       'Adds smarter forms with conditional fields and optional uploads so you receive better-qualified enquiries.',
   },
-  basicSeoSetup: {
-    title: 'Basic SEO setup',
-    description:
-      'Sets up key on-page SEO foundations so your website is easier to find and indexed correctly.',
-  },
-  copywritingAssistance: {
-    title: 'Copywriting assistance',
-    description:
-      'Helps shape clear, conversion-focused website text that communicates your value in plain language.',
-  },
+  // basicSeoSetup: { // Already included in base
+  //   title: 'Basic SEO setup',
+  //   description:
+  //     'Sets up key on-page SEO foundations so your website is easier to find and indexed correctly.',
+  // },
+  // copywritingAssistance: { // Already included in base
+  //   title: 'Copywriting assistance',
+  //   description:
+  //     'Helps shape clear, conversion-focused website text that communicates your value in plain language.',
+  // },
   cmsBlogCapability: {
     title: 'CMS/blog capability',
     description:

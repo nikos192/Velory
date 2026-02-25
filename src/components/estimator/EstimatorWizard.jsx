@@ -137,40 +137,7 @@ export default function EstimatorWizard() {
       case 4:
         return (
           <div className="space-y-6">
-            <h2 className="text-2xl md:text-3xl font-semibold text-white">Marketing and content</h2>
-
-            <label className="block rounded-xl border border-white/10 bg-white/5 p-4 cursor-pointer">
-              <div className="flex items-start gap-3">
-                <input
-                  type="checkbox"
-                  checked={selection.basicSeoSetup}
-                  onChange={() => updateSelection('basicSeoSetup', !selection.basicSeoSetup)}
-                  className="mt-1 h-4 w-4 rounded border-white/20 bg-slate-900/60 text-marina-400 focus:ring-marina-400"
-                />
-                <div>
-                  <p className="text-white font-medium">{ESTIMATOR_CONTENT.basicSeoSetup.title}</p>
-                  <p className="text-sm text-slate-300 mt-1">{ESTIMATOR_CONTENT.basicSeoSetup.description}</p>
-                  <p className="text-sky-300 mt-2 font-medium">+{formatAud(PRICING_CONFIG.basicSeoSetup)}</p>
-                </div>
-              </div>
-            </label>
-
-            <label className="block rounded-xl border border-white/10 bg-white/5 p-4 cursor-pointer">
-              <div className="flex items-start gap-3">
-                <input
-                  type="checkbox"
-                  checked={selection.copywritingAssistance}
-                  onChange={() => updateSelection('copywritingAssistance', !selection.copywritingAssistance)}
-                  className="mt-1 h-4 w-4 rounded border-white/20 bg-slate-900/60 text-marina-400 focus:ring-marina-400"
-                />
-                <div>
-                  <p className="text-white font-medium">{ESTIMATOR_CONTENT.copywritingAssistance.title}</p>
-                  <p className="text-sm text-slate-300 mt-1">{ESTIMATOR_CONTENT.copywritingAssistance.description}</p>
-                  <p className="text-sky-300 mt-2 font-medium">+{formatAud(PRICING_CONFIG.copywritingAssistance)}</p>
-                </div>
-              </div>
-            </label>
-
+            <h2 className="text-2xl md:text-3xl font-semibold text-white">Blog capability</h2>
             <label className="block rounded-xl border border-white/10 bg-white/5 p-4 cursor-pointer">
               <div className="flex items-start gap-3">
                 <input

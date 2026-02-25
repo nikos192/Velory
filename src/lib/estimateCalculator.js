@@ -66,23 +66,7 @@ export function calculateEstimate(selection) {
     })
   }
 
-  if (selection?.basicSeoSetup) {
-    oneTimeLineItems.push({
-      key: 'basicSeoSetup',
-      label: ESTIMATOR_CONTENT.basicSeoSetup.title,
-      description: ESTIMATOR_CONTENT.basicSeoSetup.description,
-      amount: PRICING_CONFIG.basicSeoSetup,
-    })
-  }
-
-  if (selection?.copywritingAssistance) {
-    oneTimeLineItems.push({
-      key: 'copywritingAssistance',
-      label: ESTIMATOR_CONTENT.copywritingAssistance.title,
-      description: ESTIMATOR_CONTENT.copywritingAssistance.description,
-      amount: PRICING_CONFIG.copywritingAssistance,
-    })
-  }
+  // basicSeoSetup and copywritingAssistance are now included in base package
 
   if (selection?.cmsBlogCapability) {
     oneTimeLineItems.push({
